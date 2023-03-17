@@ -5,7 +5,7 @@ const Navigation = ({active, setActive}) => {
         <div className="user-con">
             <ul>
                 {menuItems.map(item => {
-                    return <li
+                    return <li 
                         key={item.id}
                         onClick={() => setActive(item.id)}
                         className={active === item.id ? 'active' : ''}>
