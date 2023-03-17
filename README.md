@@ -16,16 +16,26 @@ backend: npm i express
 
 ### Features / Functionalities:
 #### Design 
+- [ ] Design mockups for visualisation
 
-#### Design Website pages + styling - Spring 1
-
+#### Code up structure of frontend + styling - Sprint 1
+- [ ] Create all required pages:
+    - [ ] Home
+    - [ ] Menu
+    - [ ] Order Now (with cart)
+    - [ ] Login / Register
+    - [ ] Checkout page
+    - [ ] Account settings page
+    - [ ] Contact us Page
+- [ ] Buttons for Log in / Register, Shopping cart
+- [ ] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2
-[] User registration/login + Guest users
-[] User Sessions (remain authenticated as they navigate) + Logout
-[] User profile - reset passwords / change details
-[] Phone / Email Verification 
-[] OAuth Login - Login with social media e.g. Google/FB
+- [ ] User registration/login + Guest users
+- [ ] User Sessions (remain authenticated as they navigate) + Logout
+- [ ] User profile - reset passwords / change details
+- [ ] Phone / Email Verification 
+- [ ] OAuth Login - Login with social media e.g. Google/FB
 
 #### To do later:
 #### Menu display 
