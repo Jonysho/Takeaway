@@ -1,33 +1,31 @@
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
 import { useState } from "react";
-import Home from "./components/Home";
-import Menu from "./components/Menu";
-import Navigation from "./components/Navigation";
-import Order from "./components/Order";
+import Menu from "./pages/Menu";
+import { Route, Routes, useRoutes } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import MyDetails from "./pages/MyDetails";
+import Security from "./pages/Security";
+import SavedDishes from "./pages/SavedDishes";
+import Favourites from "./pages/Favourites";
+import {routes} from './utils/navRoutes';
 
-function App() {
-  const [active, setActive] = useState(1)
-
-  const displayData = () => {
-    switch(active) {
-      case 1:
-        return <Home />
-      case 2:
-        return <Menu />
-      case 3:
-        return <Order />
-      default:
-        return <Home />
-    }
-  }
-
+const App = () => {
+  const [username, setUsername] = useState('Jon')
+  const [total, setTotal] = useState(0)
+  const content = useRoutes(routes)
   return (
-    <div className="App">
-      <Navigation active={active} setActive={setActive}/>
-      <main>
-        {displayData()}
-      </main>
+    <div className="bg-gray-50 absolute top-0 left-0 h-full w-full">
+      <Header username={username} total={total}/>
+        <main>
+          {content}
+        </main>
+      <Footer/>
     </div>
-  );
+    
+   );
 }
-
+ 
 export default App;
