@@ -11,14 +11,17 @@ A website for showing information about a takeaway including its menu, where use
 
 ### Installation:
 npm i init
-frontend: npm i axios
+frontend: npm i axios react-slick slick-carousel 
 backend: npm i express 
 
 ### Features / Functionalities:
 #### Design 
-- [ ] Design mockups for visualisation
+- [X] Design mockups for visualisation
 
 #### Code up structure of frontend + styling - Sprint 1
+- [ ] Create Layout of pages:
+    - [ X ] Header
+    - [ ] Footer
 - [ ] Create all required pages:
     - [ ] Home
     - [ ] Menu
@@ -26,9 +29,8 @@ backend: npm i express
     - [ ] Login / Register
     - [ ] Checkout page
     - [ ] Account settings page
-    - [ ] Contact us Page
 - [ ] Buttons for Log in / Register, Shopping cart
-- [ ] Navbar to traverse the page
+- [ X ] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2
 - [ ] User registration/login + Guest users
