@@ -20,7 +20,7 @@ backend: npm i express
 
 #### Code up structure of frontend + styling - Sprint 1
 - [ ] Create Layout of pages:
-    - [ X ] Header
+    - [X] Header
     - [ ] Footer
 - [ ] Create all required pages:
     - [ ] Home
@@ -30,7 +30,7 @@ backend: npm i express
     - [ ] Checkout page
     - [ ] Account settings page
 - [ ] Buttons for Log in / Register, Shopping cart
-- [ X ] Navbar to traverse the page
+- [X] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2
 - [ ] User registration/login + Guest users
