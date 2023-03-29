@@ -1,7 +1,12 @@
+import { navItems } from "../utils/navItems"; 
+import { cards } from '../utils/cards'
+import PageNav from "../components/PageNav";
+import CardLayout from "../components/CardLayout";
+
 const Home = () => {
-    return ( 
-        <h1>Home</h1>
-     );
+    return (
+        <CardLayout cards={cards} />
+      );
 }
  
 export default Home;

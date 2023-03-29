@@ -1,6 +1,10 @@
+import menuPages from "../utils/menuPages";
+
 const Menu = () => {
-    return ( 
-        <h1>Menu</h1>
+    return (
+        <div className="w-full h-full">
+            <h1>menu</h1>
+        </div> 
      );
 }
  

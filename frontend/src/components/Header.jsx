@@ -6,10 +6,9 @@ import {RxCross2} from 'react-icons/rx';
 import { NavLink, useLocation} from 'react-router-dom';
 import Navbar from './Navbar';
 
-const Header = ({username, total}) => {
+const Header = ({username, total, location}) => {
   const [isOpen, setIsOpen] = useState(false); // lg screen nav
   const [isOpen2, setIsOpen2] = useState(false); // sm nav
-  const location = useLocation();
 
   useEffect(() => {
     setIsOpen(false);
@@ -23,7 +22,7 @@ const Header = ({username, total}) => {
             <div onClick={() => setIsOpen2(!isOpen2)}>
             {!isOpen2 ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
             </div>
-            <nav className={isOpen2 ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500' : 'fixed left-[-100%]'}>
+            <nav className={isOpen2 ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 z-[1000]' : 'fixed left-[-100%]'}>
                 <Navbar username={username}/>
             </nav>
           </div>
