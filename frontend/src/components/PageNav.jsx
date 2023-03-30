@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 const PageNav = ({ navItems }) => (
-    <div className="hidden lg:flex flex-shrink-0 p-4 h-full sticky top-56 z-50">
+    <div className="hidden lg:flex flex-shrink-0 p-4 h-full sticky lg:top-20 z-50">
       <ul className="flex flex-col justify-start bg-white shadow-lg">
         {navItems.map((item, index) => {
           if (item.title != 'Logout') {

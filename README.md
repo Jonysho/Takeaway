@@ -23,13 +23,16 @@ backend: npm i express
     - [X] Header
     - [ ] Footer
 - [ ] Create all required pages:
-    - [ ] Home
+    - [X] Home
     - [ ] Menu
+    - [X] Favourite Ordesrs 
+    - [X] Saved Dishes
     - [ ] Order Now (with cart)
     - [ ] Login / Register
     - [ ] Checkout page
     - [ ] Account settings page
-- [ ] Buttons for Log in / Register, Shopping cart
+    - [ ] Change Password
+- [X] Buttons for Log in / Register, Shopping cart
 - [X] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2

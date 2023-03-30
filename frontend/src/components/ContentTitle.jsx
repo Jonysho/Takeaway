@@ -17,10 +17,10 @@ const ContentTitle = ({location}) => {
         const newTitle = findTitle(path)
         setTitle(newTitle)
     }, [location])
-    
+
     return ( 
-        <div className="mb-1 sm:mb-2 lg:mb-4 lg:pl-64">
-            <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl text-center text-green-600">{title}</h1>
+        <div className="sm:mb-1 lg:mb-3 lg:pl-[17rem]">
+            <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl lg:mx-4 text-center text-green-600 drop-shadow-sm">{title}</h1>
         </div>
      );
 }

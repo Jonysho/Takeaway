@@ -10,3 +10,15 @@
 .active > span {
     @apply text-red-900
 }
+
+.redline {
+    @apply before:block before:top-10 before:h-1 before:w-60 before:bg-red-600 before:mx-3 after:block after:top-10 after:h-1 after:w-60 after:bg-red-600 after:mx-3
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Philosopher', sans-serif;
+}
+span, p {
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Nunito Sans', sans-serif;
+}
