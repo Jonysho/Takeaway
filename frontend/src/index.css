@@ -11,9 +11,18 @@
     @apply text-red-900
 }
 
+.inputbox {
+    @apply text-sm lg:text-base border p-2 w-full rounded-md focus:outline-none pr-10
+}
+
+.submitBtn {
+    @apply w-full lg:text-lg font-bold bg-blue-700 text-white py-3 px-4 rounded-3xl hover:bg-blue-800 focus:outline-none focus:bg-blue-800
+}
+
 .redline {
     @apply before:block before:top-10 before:h-1 before:w-60 before:bg-red-600 before:mx-3 after:block after:top-10 after:h-1 after:w-60 after:bg-red-600 after:mx-3
 }
+
 
 h1, h2, h3, h4, h5, h6{
     font-family: 'Philosopher', sans-serif;
@@ -21,4 +30,14 @@ h1, h2, h3, h4, h5, h6{
 span, p {
     /* font-family: 'Montserrat', sans-serif; */
     font-family: 'Nunito Sans', sans-serif;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

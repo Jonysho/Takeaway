@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {HiMenu, HiUserCircle} from 'react-icons/hi';
 import {BsFillBasket3Fill} from 'react-icons/bs';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
@@ -15,14 +15,34 @@ const Header = ({username, total, location}) => {
     setIsOpen2(false);
   }, [location])
 
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    console.log(containerRef.current); // check the value of containerRef.current
+  }, []);
+
+  const handleClick = (event) => {
+    if (isOpen && containerRef.current && !containerRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    handleClick.current = (event) => {
+      if (isOpen && containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+  }, [isOpen]);
+
   return (
       <div className='bg-white relative w-full flex flex-col items-center h-24 sm:h-36 lg:h-52 shadow-xl text-red-700 lg:text-yellow-300'>
-        <div className='w-full h-full flex mb-1 p-1 border-b-2 sm:border-b-0 items-center border-gray-500/5 justify-between lg:bg-red-700 lg:py-10'>
+        <div className='w-full h-full flex mb-1 p-1 border-b-2 sm:border-b-0 items-center border-gray-500/5 justify-between lg:bg-red-700 lg:py-10 z-[1000]'>
           <div className='border-r-2 px-3 border-gray-500/50 cursor-pointer sm:p-3 sm:px-10 block lg:hidden'>
             <div onClick={() => setIsOpen2(!isOpen2)}>
             {!isOpen2 ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
             </div>
-            <nav className={isOpen2 ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 z-[1000]' : 'fixed left-[-100%]'}>
+            <nav className={isOpen2 ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500' : 'fixed left-[-100%]'}>
                 <Navbar username={username}/>
             </nav>
           </div>

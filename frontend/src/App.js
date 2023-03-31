@@ -24,7 +24,7 @@ const App = () => {
   return (
     <div className="bg-gray-50 absolute top-0 left-0 h-full w-full overflow-auto">
       <div className="flex flex-col"> 
-        <div className='sticky top-[-3rem] sm:top-[-4.5rem] lg:top-[-8.6rem] z-[100]'>
+        <div className='sticky top-[-3rem] sm:top-[-4.5rem] lg:top-[-8.6rem] z-[800]'>
           <Header username={username} total={total} location={location}/>
         </div>
         <main className="h-full flex flex-col">
