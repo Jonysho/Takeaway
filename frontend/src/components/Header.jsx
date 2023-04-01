@@ -1,77 +1,90 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {HiMenu, HiUserCircle} from 'react-icons/hi';
 import {BsFillBasket3Fill} from 'react-icons/bs';
+import {AiOutlineShop} from 'react-icons/ai';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
 import {RxCross2} from 'react-icons/rx';
-import { NavLink, useLocation} from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import Navbar from './Navbar';
+import Info from './Info';
+import { useClickOutside } from '../customHooks/useClickOutside';
 
-const Header = ({username, total, location}) => {
-  const [isOpen, setIsOpen] = useState(false); // lg screen nav
-  const [isOpen2, setIsOpen2] = useState(false); // sm nav
+const Header = ({username, total, location, isShopOpen}) => {
+  const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
+  const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
+  const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
 
+  const resetNavs = () => {
+    setIsNavDTOpen(false);
+    setIsNavMBOpen(false);
+    setIsInfoOpen(false);
+  }
+
+  const navRef = useClickOutside(resetNavs);
+  
   useEffect(() => {
-    setIsOpen(false);
-    setIsOpen2(false);
+    resetNavs()
   }, [location])
 
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    console.log(containerRef.current); // check the value of containerRef.current
-  }, []);
-
-  const handleClick = (event) => {
-    if (isOpen && containerRef.current && !containerRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    handleClick.current = (event) => {
-      if (isOpen && containerRef.current && !containerRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-  }, [isOpen]);
-
   return (
-      <div className='bg-white relative w-full flex flex-col items-center h-24 sm:h-36 lg:h-52 shadow-xl text-red-700 lg:text-yellow-300'>
+      <div ref={navRef} className='bg-white relative w-full flex flex-col items-center h-24 sm:h-36 lg:h-52 shadow-xl text-red-700 lg:text-yellow-300'>
         <div className='w-full h-full flex mb-1 p-1 border-b-2 sm:border-b-0 items-center border-gray-500/5 justify-between lg:bg-red-700 lg:py-10 z-[1000]'>
-          <div className='border-r-2 px-3 border-gray-500/50 cursor-pointer sm:p-3 sm:px-10 block lg:hidden'>
-            <div onClick={() => setIsOpen2(!isOpen2)}>
-            {!isOpen2 ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
+          <div className='border-r-2 px-3 border-gray-500/50 sm:p-3 sm:px-10 block lg:hidden'>
+            <div className='cursor-pointer' onClick={() => setIsNavMBOpen(!isNavMBOpen)}>
+            {!isNavMBOpen ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
             </div>
-            <nav className={isOpen2 ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500' : 'fixed left-[-100%]'}>
-                <Navbar username={username}/>
-            </nav>
           </div>
+          <nav className={isNavMBOpen ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 block lg:hidden' : 'fixed left-[-100%]'}>
+              <Navbar username={username}/>
+          </nav>
           <NavLink to="/" className='p-1 font-bold text-xl sm:text-3xl lg:text-5xl items-center m-auto'><h1>Ho's Kitchen</h1></NavLink>
-          <NavLink to="/checkout">
-            <div className='border-l-2 px-3 items-center border-gray-500/50 cursor-pointer sm:p-3 sm:px-10 flex sm:justify-around lg:hidden'>
-                <div className='w-full'><BsFillBasket3Fill size={28}/></div>
-                <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}.00</div>
+            <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8'>
+            <NavLink to="/checkout">
+              <div className='items-center flex sm:justify-around lg:hidden'>
+                  <div className='w-full'><BsFillBasket3Fill size={26}/></div>
+                  <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}.00</div>
+              </div>
+            </NavLink>
             </div>
-          </NavLink>
           <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
             <HiUserCircle size={22}/>
-            <div className='ml-4 flex cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
+            <div className='ml-4 flex cursor-pointer' onClick={() => setIsNavDTOpen(!isNavDTOpen)}>
               <span className='text-xl font-semibold pr-2'>{username}</span>
-              {!isOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
+              {!isNavDTOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
             </div>
-            {isOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>}
-            {isOpen && <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
+            {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>}
+            {isNavDTOpen && <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
             {/* transition-all ease-in-out duration-300 transform translate-x-full sm:translate-x-0' */}
               <Navbar username={username}/>
                 </nav>}
           </div>
         </div>
-
-        <div className='w-full flex justify-evenly h-full items-center relative'>
-          <NavLink to="/menu"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>Menu</span></NavLink>
-          <NavLink to="/menu"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>Order Now</span></NavLink>
-          <NavLink to="/myorders"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>My Orders</span></NavLink>
+      
+        <nav className='w-full flex justify-center lg:justify-between h-full items-center relative text-black'>
+        <div className='hidden lg:flex ml-[5%] w-72 h-12 bg-blue-500 text-white rounded-3xl hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm'>
+            <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={() => setIsInfoOpen(!isInfoOpen)}>
+                <span><AiOutlineShop size={25}/></span>
+                <span className='text-lg font-semibold'> Collection Only </span>
+                <span className='bg-blue-600 hover:bg-blue-600 focus:outline-none focus:bg-blue-600 rounded-3xl p-2'> {isShopOpen ? 'Open' : 'Closed'}  </span>
+            </div>
+          </div>
+          <div>
+            <NavLink to="/menu"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl mr-5 sm:mr-8 lg:mr-10'>Menu</span></NavLink>
+            <NavLink to="/myorders"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl ml-5 sm:ml-8 lg:ml-10'>My Orders</span></NavLink>
+          </div>
+          <div className='hidden lg:flex mr-[5%] w-64 h-12 bg-green-500 text-white rounded-3xl hover:bg-green-600 focus:outline-none focus:bg-green-600 shadow-sm'>
+            <NavLink to="/checkout" className="flex items-center justify-between w-full px-4">
+                  <p><BsFillBasket3Fill size={25}/></p>
+                  <p className='text-lg font-semibold'> Basket </p>
+                  <p className='bg-green-600 hover:bg-green-600 focus:outline-none focus:bg-green-600 rounded-3xl p-2'> ${total}.00 </p>
+            </NavLink>
+          </div>
+        </nav>
+        {isInfoOpen && 
+        <div className='hidden lg:flex max-w-2xl h-fit z-[999] top-40 absolute shadow-2xl'>
+          <Info setIsInfoOpen={setIsInfoOpen}/>
         </div>
+        }
       </div>
     );
 }

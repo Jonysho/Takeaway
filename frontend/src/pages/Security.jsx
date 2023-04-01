@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {AiFillEyeInvisible, AiFillEye}  from 'react-icons/ai'
 import {VscCheck, VscChromeClose, VscChromeMinimize} from 'react-icons/vsc';
 
@@ -18,15 +18,16 @@ const Security = () => {
 
     const updateField = (e) => {
         const name = e.target.name
-        setDash(false)
         switch(name) {
             case 'currPass':
                 setCurrPass(e.target.value)
                 break
             case 'newPass':
+                setDash(false)
                 setNewPass(e.target.value)
                 break
             case 'confPass':
+                setDash(false)
                 setConfPass(e.target.value)
                 break
             default:
@@ -59,7 +60,7 @@ const Security = () => {
                     <label className="block text-gray-700 font-bold mb-2">Current Password:</label>
                     <div className="flex relative items-center">
                         <input type={!visible1 ? 'password' : 'text'} value={currPass} name="currPass" onChange={e => updateField(e)} className={`inputbox ${error ? 'border border-red-700 focus:border-red-700' : 'border-gray-400 focus:border-blue-700'}`}/>
-                        <label className="absolute right-4" onClick={(e) => setVisibile1(!visible1)}>{visible1 ? <AiFillEyeInvisible size={20}/> : <AiFillEye size={20}/>}</label>
+                        <label className="absolute right-4 cursor-pointer hover:text-blue-700" onClick={(e) => setVisibile1(!visible1)}>{visible1 ? <AiFillEyeInvisible size={22}/> : <AiFillEye size={22}/>}</label>
                         <label className="absolute bottom-[-1.7rem] text-red-700 font-bold">{error}</label>
                     </div>
                 </div>
@@ -67,14 +68,14 @@ const Security = () => {
                     <label className="block text-gray-700 font-bold mb-2">New Password:</label>
                     <div className="flex relative items-center">
                         <input type={!visible2 ? 'password' : 'text'} value={newPass} name="newPass" onChange={e => updateField(e)} className='inputbox border-gray-400 focus:border-blue-700'/>
-                        <label className="absolute right-4" onClick={(e) => setVisibile2(!visible2)}>{visible2 ? <AiFillEyeInvisible size={20}/> : <AiFillEye size={20}/>}</label>
+                        <label className="absolute right-4 cursor-pointer hover:text-blue-700" onClick={(e) => setVisibile2(!visible2)}>{visible2 ? <AiFillEyeInvisible size={22}/> : <AiFillEye size={22}/>}</label>
                     </div>
                 </div>
                 <div className="my-4">
                     <label className="block text-gray-700 font-bold mb-2">Confirm Password:</label>
                     <div className="flex relative items-center">
                         <input type={!visible3 ? 'password' : 'text'} value={confPass} name="confPass" onChange={e => updateField(e)} className='inputbox border-gray-400 focus:border-blue-700'/>
-                        <label className="absolute right-4" onClick={(e) => setVisibile3(!visible3)}>{visible3 ? <AiFillEyeInvisible size={20}/> : <AiFillEye size={20}/>}</label>
+                        <label className="absolute right-4 cursor-pointer hover:text-blue-700" onClick={(e) => setVisibile3(!visible3)}>{visible3 ? <AiFillEyeInvisible size={22}/> : <AiFillEye size={22}/>}</label>
                     </div>
                 </div>
                 <ul>
@@ -83,17 +84,17 @@ const Security = () => {
                         <span className="block text-gray-700 font-bold">Bewteen 8-30 characters</span>
                     </li>
                     <li className="flex items-center mb-2">
-                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkLength() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
+                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkLetterNum() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
 
                         <span className="block text-gray-700 font-bold">A letter & number</span>
                     </li> 
                     <li className="flex items-center mb-2">
-                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkLength() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
+                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkSymbol() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
 
                         <span className="block text-gray-700 font-bold"> A special character</span>
                     </li>
                     <li className="flex items-center mb-2">
-                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkLength() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
+                    <div className="p-2">{dash ? <VscChromeMinimize className="text-gray-700" size={20}/> : checkMatch() ? <VscCheck className="text-green-600" size={20}/> : <VscChromeClose className="text-red-600" size={20}/>}</div>
                         <span className="block text-gray-700 font-bold"> Passwords need to match</span>
                     </li>
                 </ul>

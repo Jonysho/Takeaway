@@ -1,5 +1,5 @@
 import { IoIosArrowForward } from "react-icons/io";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { navItems } from "../utils/navItems";
 
 const Navbar = ({username}) => {
@@ -9,7 +9,7 @@ const Navbar = ({username}) => {
         {navItems.map((item, index) => {
             return <li key={item.id} className={index + 1 != navItems.length ? "border-b-2 border-gray-700 border-opacity-20" : " "}>
             <NavLink to={item.link}>
-            <span className='flex items-center justify-between p-3 sm:p-4 ml-6 lg:mx-3 lg:p-3 text-red-700 hover:text-red-600 font-semibold cursor-pointer'> {item.title} <IoIosArrowForward size={26}/>
+            <span className='flex items-center justify-between p-3 sm:p-4 ml-6 lg:mx-3 lg:p-3 text-red-700 hover:text-red-600 font-semibold'> {item.title} <IoIosArrowForward size={26}/>
             </span>
             </NavLink>
             </li> 

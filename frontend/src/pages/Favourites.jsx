@@ -13,8 +13,8 @@ const Favourites = () => {
         <div className="w-full text-center">
             {favourites ? <CardLayout cards={favourites} /> : 
             <div className="w-full">
-                <p className="pb-2 font-bold">There are currently no saved favourite baskets.</p>
-                <p className="text-sm lg:text-base p-2">You can name and favourite your baskets prior to ordering for quicker ordering next time.</p>
+                <p className="pb-2 font-bold">There are currently no saved favourite orders.</p>
+                <p className="text-sm lg:text-base p-2">You can name and favourite your orders prior to ordering for quicker ordering next time.</p>
             </div>
             }
             {recents ? <CardLayout cards={recents} /> : 

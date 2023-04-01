@@ -20,7 +20,7 @@ const MyDetails = () => {
         setLname(user.lname)
         setEmail(user.email)
         setPhone(user.phone)
-    })
+    }, [])
 
     const updateField = (e) => {
         const name = e.target.name
