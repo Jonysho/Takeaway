@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const PageNav = ({ navItems }) => (
+const SideNav = ({ navItems }) => (
     <div className="hidden lg:flex flex-shrink-0 p-4 h-full sticky lg:top-20 z-50">
       <ul className="flex flex-col justify-start bg-white shadow-lg">
         {navItems.map((item, index) => {
@@ -21,4 +21,4 @@ const PageNav = ({ navItems }) => (
       </ul>
     </div>
   );
-export default PageNav;
+export default SideNav;

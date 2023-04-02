@@ -38,9 +38,9 @@ const Header = ({username, total, location, isShopOpen}) => {
               <Navbar username={username}/>
           </nav>
           <NavLink to="/" className='p-1 font-bold text-xl sm:text-3xl lg:text-5xl items-center m-auto'><h1>Ho's Kitchen</h1></NavLink>
-            <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8'>
+            <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8 lg:hidden'>
             <NavLink to="/checkout">
-              <div className='items-center flex sm:justify-around lg:hidden'>
+              <div className='items-center flex sm:justify-around'>
                   <div className='w-full'><BsFillBasket3Fill size={26}/></div>
                   <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}.00</div>
               </div>
@@ -53,30 +53,30 @@ const Header = ({username, total, location, isShopOpen}) => {
               {!isNavDTOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
             </div>
             {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>}
-            {isNavDTOpen && <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
-            {/* transition-all ease-in-out duration-300 transform translate-x-full sm:translate-x-0' */}
+            {isNavDTOpen && 
+              <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
               <Navbar username={username}/>
-                </nav>}
+              </nav>}
           </div>
         </div>
       
         <nav className='w-full flex justify-center lg:justify-between h-full items-center relative text-black'>
-        <div className='hidden lg:flex ml-[5%] w-72 h-12 bg-blue-500 text-white rounded-3xl hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm'>
+        <div className='hidden lg:flex ml-[5%] w-72 h-12 bg-blue-500 text-white rounded-3xl hover:bg-blue-700 focus:outline-none focus:bg-blue-700 shadow-sm'>
             <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={() => setIsInfoOpen(!isInfoOpen)}>
                 <span><AiOutlineShop size={25}/></span>
                 <span className='text-lg font-semibold'> Collection Only </span>
-                <span className='bg-blue-600 hover:bg-blue-600 focus:outline-none focus:bg-blue-600 rounded-3xl p-2'> {isShopOpen ? 'Open' : 'Closed'}  </span>
+                <span className='bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 rounded-3xl p-2'> {isShopOpen ? 'Open' : 'Closed'}  </span>
             </div>
           </div>
           <div>
             <NavLink to="/menu"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl mr-5 sm:mr-8 lg:mr-10'>Menu</span></NavLink>
             <NavLink to="/myorders"><span className=' text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl ml-5 sm:ml-8 lg:ml-10'>My Orders</span></NavLink>
           </div>
-          <div className='hidden lg:flex mr-[5%] w-64 h-12 bg-green-500 text-white rounded-3xl hover:bg-green-600 focus:outline-none focus:bg-green-600 shadow-sm'>
+          <div className='hidden lg:flex mr-[5%] w-64 h-12 bg-green-500 text-white rounded-3xl hover:bg-green-700 focus:outline-none focus:bg-green-700 shadow-sm'>
             <NavLink to="/checkout" className="flex items-center justify-between w-full px-4">
                   <p><BsFillBasket3Fill size={25}/></p>
                   <p className='text-lg font-semibold'> Basket </p>
-                  <p className='bg-green-600 hover:bg-green-600 focus:outline-none focus:bg-green-600 rounded-3xl p-2'> ${total}.00 </p>
+                  <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> ${total}.00 </p>
             </NavLink>
           </div>
         </nav>

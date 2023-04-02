@@ -2,20 +2,31 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useState } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
-import {routes} from './utils/navRoutes';
-import PageNav from "./components/PageNav";
+import {withNavRoutes,  withoutNavRoutes} from './utils/navRoutes';
+import SideNav from "./components/SideNav";
 import { navItems } from "./utils/navItems";
 import ContentTitle from "./components/ContentTitle";
-import Menu from "./pages/Menu";
 
 const App = () => {
   const [username, setUsername] = useState('Jon')
   const [total, setTotal] = useState(0)
   const [isShopOpen, setIsShopOpen] = useState(false)
-  const content = useRoutes(routes)
+  const navContent = useRoutes(withNavRoutes)
+  const otherContent = useRoutes(withoutNavRoutes)
   const location = useLocation();
 
   console.log(location.pathname)
+
+  // Check if page needs rendering with or without side nav
+  const checkLocation = () => {
+    let withNav = false;
+    withNavRoutes.map(route => {
+      if (route.path === location.pathname){
+        withNav = true}
+    })
+    
+    return withNav
+  }
 
   return (
     <div className="bg-gray-50 absolute top-0 left-0 h-full w-full overflow-auto">
@@ -24,20 +35,18 @@ const App = () => {
           <Header username={username} total={total} location={location} isShopOpen={isShopOpen}/>
         </div>
         <main className="h-full flex flex-col">
-        {location.pathname === "/menu" ? 
+        {!checkLocation() ? 
           (
-            <div className="px-4 py-6 flex-1"> <Menu/> </div>
-          ) : (
-            <div className="px-4 py-6 flex-1">
+            <div>{otherContent}</div>
+          ) : <div className="px-4 py-6 flex-1">
             <ContentTitle location={location}/>
               <div className="flex">
-              <PageNav navItems={navItems}/>
+              <SideNav navItems={navItems}/>
                 <div className="p-4 w-full">
-                  {content}
+                  {navContent}
                 </div>
               </div>
             </div>
-          )
           }
           <div className="mt-auto">
             <Footer />

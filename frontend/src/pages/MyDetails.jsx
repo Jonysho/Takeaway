@@ -55,7 +55,7 @@ const MyDetails = () => {
 
     return ( 
         <div className="h-full bg-white shadow-md max-w-xl mx-auto">
-            <form method="POST" className="mx-auto p-6">
+            <form method="POST" className="mx-4 p-6">
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">First Name:</label>
                     <input type="text" value={fname} name="fname" onChange={e => updateField(e)} className="inputbox border-gray-400 focus:border-blue-700"/>
