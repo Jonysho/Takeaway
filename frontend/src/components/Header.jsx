@@ -4,15 +4,17 @@ import {BsFillBasket3Fill} from 'react-icons/bs';
 import {AiOutlineShop} from 'react-icons/ai';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
 import {RxCross2} from 'react-icons/rx';
-import { NavLink} from 'react-router-dom';
+import { Link, NavLink} from 'react-router-dom';
 import Navbar from './Navbar';
 import Info from './Info';
 import { useClickOutside } from '../customHooks/useClickOutside';
+import { useAuthContext } from '../customHooks/useAuthContext';
 
-const Header = ({username, total, location, isShopOpen}) => {
+const Header = ({total, location, isShopOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
   const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
   const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
+  const { user } = useAuthContext()
 
   const resetNavs = () => {
     setIsNavDTOpen(false);
@@ -35,7 +37,7 @@ const Header = ({username, total, location, isShopOpen}) => {
             </div>
           </div>
           <nav className={isNavMBOpen ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 block lg:hidden' : 'fixed left-[-100%]'}>
-              <Navbar username={username}/>
+              <Navbar user={user}/>
           </nav>
           <NavLink to="/" className='p-1 font-bold text-xl sm:text-3xl lg:text-5xl items-center m-auto'><h1>Ho's Kitchen</h1></NavLink>
             <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8 lg:hidden'>
@@ -46,18 +48,26 @@ const Header = ({username, total, location, isShopOpen}) => {
               </div>
             </NavLink>
             </div>
+          { user ? (
           <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
             <HiUserCircle size={22}/>
             <div className='ml-4 flex cursor-pointer' onClick={() => setIsNavDTOpen(!isNavDTOpen)}>
-              <span className='text-xl font-semibold pr-2'>{username}</span>
+              <span className='text-xl font-semibold pr-2'>{user && user.firstname}</span>
               {!isNavDTOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
             </div>
-            {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>}
+            {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>} {/*Triangle Above navbox*/}
             {isNavDTOpen && 
               <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
-              <Navbar username={username}/>
+              <Navbar user={user}/>
               </nav>}
-          </div>
+          </div> ) :
+          (
+            <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
+              <Link to="/login"><span className='px-3 text-xl border-r border-black/40'>Login</span></Link>
+              <Link to="/register"><span className='px-3 text-xl border-l border-black/40'>Register</span></Link>
+            </div>
+          )
+          }
         </div>
       
         <nav className='w-full flex justify-center lg:justify-between h-full items-center relative text-black'>

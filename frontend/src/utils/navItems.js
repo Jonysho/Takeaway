@@ -35,10 +35,4 @@ export const navItems = [
         link: '/security',
         icon: AiFillLock,
     },
-    {
-        id: 6,
-        title: 'Logout',
-        link: '/logout',
-        icon: BiLogOut,
-    },
 ]

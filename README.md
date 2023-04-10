@@ -25,17 +25,19 @@ backend: npm i express
 - [ ] Create all required pages:
     - [X] Home
     - [ ] Menu
-    - [X] Favourite Ordesrs 
-    - [X] Saved Dishes
-    - [ ] Order Now (with cart)
-    - [ ] Login / Register
+    - [ ] My Orders
     - [ ] Checkout page
-    - [ ] Account settings page
-    - [ ] Change Password
+    - [X] Favourite Orders 
+    - [X] Saved Dishes
+    - [X] Account settings page
+    - [X] Change Password
+    - [ ] Login / Register / Forget Password
 - [X] Buttons for Log in / Register, Shopping cart
 - [X] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2
+- [X] Add/Get/Delete/Update users
+- [ ] Add all validation checks for fields
 - [ ] User registration/login + Guest users
 - [ ] User Sessions (remain authenticated as they navigate) + Logout
 - [ ] User profile - reset passwords / change details

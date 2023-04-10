@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
+import { useLogin } from "../customHooks/useLogin";
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const [visible, setVisible] = useState(false)
+    const {login, error, isLoading} = useLogin()
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault()
 
-    const handleSubmit = (e) => {
-        e.preventdefault()
-        // Send data to backend to verify
-        // Log in to session if successful
-        // Otherwise reset fields to ''
-        console.log("Verifying")
+        await login(email, password)
     }
 
     return ( 
@@ -25,7 +24,7 @@ const Login = () => {
             </div>
         </div>
         <div className="h-full max-w-xl mx-auto">
-            <form method="POST" className="mx-10 p-6">
+            <form className="mx-10 p-6">
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Email address:</label>
                     <input type="email" value={email} name="email" onChange={e => setEmail(e.target.value)} className="inputbox border-gray-400 focus:border-blue-700"/>
@@ -45,7 +44,7 @@ const Login = () => {
                 <div className="mb-4">
                     <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
                 </div>
-                <button type="submit" onClick={e => handleSubmit(e)} className='submitBtn mb-6'>Login</button>
+                <button type="submit" disabled={isLoading} onClick={e => handleSubmit(e)} className='submitBtn mb-6'>Login</button>
                 <div className="block ml-2 xs:ml-0 xs:flex justify-center items-center">
                     <p className="xs:mx-1">Dont have an account? </p>
                     <NavLink to="/register"><p className="text-blue-800 hover:text-blue-600">Register Here</p></NavLink>

@@ -15,8 +15,6 @@ const App = () => {
   const otherContent = useRoutes(withoutNavRoutes)
   const location = useLocation();
 
-  console.log(location.pathname)
-
   // Check if page needs rendering with or without side nav
   const checkLocation = () => {
     let withNav = false;
