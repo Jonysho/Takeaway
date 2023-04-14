@@ -1,3 +1,4 @@
+import AuthRoute from "../components/AuthRoute";
 import Checkout from "../pages/Checkout";
 import Error404 from "../pages/Error404";
 import Favourites from "../pages/Favourites";
@@ -14,34 +15,34 @@ import Security from "../pages/Security";
 const withNavRoutes = [
     {
         path: '/',
-        element: <Home/>
+        element: <AuthRoute element={<Home />} redirectPath="/login" />,
     },
     {
         path: '/favourites',
-        element: <Favourites/>
+        element: <AuthRoute element={<Favourites />} redirectPath="/login" />
     },
     {
         path: '/saved-dishes',
-        element: <SavedDishes/>
+        element: <AuthRoute element={<SavedDishes />} redirectPath="/login" />
     },
     {
         path: '/personal-details',
-        element: <MyDetails/>
+        element: <AuthRoute element={<MyDetails />} redirectPath="/login" />
     },
     {
         path: '/security',
-        element: <Security/>
+        element: <AuthRoute element={<Security />} redirectPath="/login" />
     },
 ]
 
 const withoutNavRoutes = [
     {
         path: '/login',
-        element: <Login/>
+        element: <AuthRoute path="/login" element={<Login />} redirectPath="/login" />
     },
     {
         path: '/register',
-        element: <Register/>
+        element: <AuthRoute path="/register" element={<Register />} redirectPath="/login" />
     },
     {
         path: '/forgotpassword',
@@ -53,11 +54,11 @@ const withoutNavRoutes = [
     },
     {
         path: '/myorders',
-        element: <MyOrders/>
+        element: <AuthRoute element={<MyOrders />} redirectPath="/login" />
     },
     {
         path: '/checkout',
-        element: <Checkout/>
+        element: <AuthRoute element={<Checkout />} redirectPath="/login" />
     },
     {
         path: '*',

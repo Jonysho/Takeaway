@@ -37,10 +37,10 @@ backend: npm i express
 
 #### User Authentication & Authorization - Sprint 2
 - [X] Add/Get/Delete/Update users
-- [ ] Add all validation checks for fields
+- [X] Add all validation checks for fields
 - [ ] User registration/login + Guest users
-- [ ] User Sessions (remain authenticated as they navigate) + Logout
-- [ ] User profile - reset passwords / change details
+- [X] User Sessions (remain authenticated as they navigate) + Logout
+- [X] User profile - reset passwords / change details
 - [ ] Phone / Email Verification 
 - [ ] OAuth Login - Login with social media e.g. Google/FB
 
