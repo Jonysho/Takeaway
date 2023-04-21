@@ -4,21 +4,26 @@ const cors = require('cors');
 const path = require('path');
 const userRoutes = require('./routes/user');
 const { db } = require('./db/db')
+const authRoutes = require("./routes/auth");
 
 const app = express();
-
 const PORT = process.env.PORT
 
 const shopAddress = '124 Eastwood Old Rd, Leigh-on-Sea, Southend-on-Sea, Leigh-on-Sea SS9 4RY';
 const mapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
 app.use(express.static('public'))
 
 app.use('/api/user', userRoutes);
 
-// -------------------------------------------------------------------------------------------------------------------
+// Google OAuth2.0
+app.use("/api/auth", authRoutes)
 
 // Menu PDF 
 app.get('/pdf', function(req, res) {

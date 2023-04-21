@@ -11,7 +11,7 @@ export const useSignup = () => {
         setIsLoading(true)
         setError(null)
         
-        axios.post('/api/user/register', {
+        axios.post('/api/auth/register', {
             firstname: firstname,
             lastname: lastname,
             email: email,

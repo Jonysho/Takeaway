@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator')
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
     firstname: {
@@ -10,12 +11,10 @@ const UserSchema = new mongoose.Schema({
     },
     lastname: {
         type: String,
-        required: true,
         trim: true,
     },
     phone: {
         type: String,
-        required: true,
         trim: true,
     },
     email: {
@@ -26,7 +25,6 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         trim: true,
     },
     favourites: {
@@ -42,7 +40,6 @@ const UserSchema = new mongoose.Schema({
 
 // static signup method
 UserSchema.statics.signup = async function (firstname, lastname, email, password, phone){
-
     // Validation
     if (!firstname || !lastname|| !phone || !email || !password){
         throw Error('All fields are required.')
@@ -78,6 +75,7 @@ UserSchema.statics.login = async function(email, password){
     } 
 
     const user = await this.findOne({ email })
+    console.log(user)
     if (!user) {
         throw Error('Email does not exist.')
     }
@@ -116,6 +114,11 @@ UserSchema.statics.changePassword = async function(userId, password, newPassword
 
     if (!user) {
         throw Error('User does not exist.')
+    }
+    
+    // Check if google account first
+    if (!user.password){
+        throw Error('Please update your password through Gmail.')
     }
 
     // Verify passwords
@@ -183,5 +186,10 @@ UserSchema.statics.updateDetails = async function(userId, firstname, lastname, e
     await user.save()
     return user
 }
+
+UserSchema.methods.generateJWT = function() {
+    const token = jwt.sign({ _id: this._id }, process.env.secret, { expiresIn: '12h' });
+    return token;
+  };
 
 module.exports = mongoose.model('User', UserSchema)

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 import { openingHours } from "../utils/openingHours";
 import map from "../img/map.png";
 import {ImCross} from 'react-icons/im';

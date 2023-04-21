@@ -15,7 +15,7 @@ import Security from "../pages/Security";
 const withNavRoutes = [
     {
         path: '/',
-        element: <AuthRoute element={<Home />} redirectPath="/login" />,
+        element: <Home/>
     },
     {
         path: '/favourites',

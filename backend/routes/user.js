@@ -1,12 +1,8 @@
 const express = require('express');
-const { login, register, getUserDetails, changePassword, updateDetails } = require('../controllers/userController');
+const {getUserDetails, changePassword, updateDetails } = require('../controllers/userController');
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
-
-
-router.post('/login', login)
-.post('/register', register)
 
 // Protected Routes 
 router.use(requireAuth)

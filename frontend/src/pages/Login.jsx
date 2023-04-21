@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useLogin } from "../customHooks/useLogin";
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [visible, setVisible] = useState(false)
-    const {login, error, isLoading} = useLogin()
+    const {login, googleLogin, error, isLoading} = useLogin()
     
-    const handleSubmit = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-
         await login(email, password)
+    }
+
+    const handleGoogleLogin = async (e) => {
+        e.preventDefault()
+        googleLogin()
     }
 
     return ( 
@@ -44,7 +49,15 @@ const Login = () => {
                 <div className="mb-4">
                     <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
                 </div>
-                <button type="submit" disabled={isLoading} onClick={e => handleSubmit(e)} className='submitBtn mb-6'>Login</button>
+                <button type="submit" disabled={isLoading} onClick={e => handleLogin(e)} className='submitBtn mb-6'>Login</button>
+                <div className="flex justify-center mb-4">
+                    <button 
+                        className="bg-white text-gray-700 font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-100 focus:outline-none focus:shadow-outline"
+                        onClick={e => handleGoogleLogin(e)}
+                        >
+                        <span className="mx-auto flex items-center"> <FcGoogle className="mr-2" size={24}/> Sign in with Google</span>
+                    </button>
+                </div>
                 <div className="block ml-2 xs:ml-0 xs:flex justify-center items-center">
                     <p className="xs:mx-1">Dont have an account? </p>
                     <NavLink to="/register"><p className="text-blue-800 hover:text-blue-600">Register Here</p></NavLink>
