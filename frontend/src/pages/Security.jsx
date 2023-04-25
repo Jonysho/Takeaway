@@ -88,8 +88,8 @@ const Security = () => {
                     <span className="block text-gray-700 font-bold"> Passwords need to match</span>
                 </li>
                 <div className="my-4">
-                    <label className="bottom-[-1.7rem] text-red-700 font-bold">{error}</label>
-                    <label className="bottom-[-1.7rem] text-green-700 font-bold">{message}</label>
+                    <label className="bottom-[-1.7rem] text-red-600 font-bold">{error}</label>
+                    <label className="bottom-[-1.7rem] text-green-600 font-bold">{message}</label>
                 </div>
                 <button type="submit" disabled={isLoading} onClick={e => handleUpdate(e)} className="submitBtn mt-1">Submit</button>
             </form>

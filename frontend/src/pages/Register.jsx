@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import PasswordCheck from "../components/PasswordCheck";
@@ -10,7 +10,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
-    const {signup, error, isLoading} = useSignup()
+    const {signup, error, isLoading, message, setMessage} = useSignup()
 
     const [visible, setVisible] = useState('')
     const [dash, setDash] = useState(true) // User sees dash rather than cross/tick before typing
@@ -61,6 +61,7 @@ const Register = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
+                    <label htmlFor="error" className="text-green-600 font-bold">{message}</label>
                 </div>
                 <PasswordCheck checkLength={checkLength} checkLetterNum={checkLetterNum} checkSymbol={checkSymbol} dash={dash} />
                 <button type="submit" disabled={isLoading} onClick={e => handleRegister(e)} className='submitBtn mb-6'>Register</button>

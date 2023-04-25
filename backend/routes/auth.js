@@ -19,14 +19,4 @@ router.post('/google', async (req, res) => {
   googleLogin(req, res, access_token)
 });
 
-router.post('/google/refresh-token', async (req, res) => {
-  const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
-    req.body.refreshToken,
-  );
-  const { credentials } = await user.refreshAccessToken(); // optain new tokens
-  res.json(credentials);
-})
-
 module.exports = router;

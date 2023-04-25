@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useClickOutside = (resetNavs) => {
   const ref = useRef(null);

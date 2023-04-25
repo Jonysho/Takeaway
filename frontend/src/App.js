@@ -1,20 +1,16 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useState } from "react";
-import { Navigate, useLocation, useRoutes } from "react-router-dom";
+import { useLocation, useRoutes } from "react-router-dom";
 import {withNavRoutes,  withoutNavRoutes} from './utils/navRoutes';
 import SideNav from "./components/SideNav";
 import { navItems } from "./utils/navItems";
 import ContentTitle from "./components/ContentTitle";
-import { useAuthContext } from "./customHooks/useAuthContext";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
 
 const App = () => {
   const [total, setTotal] = useState(0)
   const [isShopOpen, setIsShopOpen] = useState(false)
   const location = useLocation();
-  const { user } = useAuthContext();
   
   // Check if page needs rendering with or without side nav
   const checkLocation = () => {

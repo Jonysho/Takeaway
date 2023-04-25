@@ -5,6 +5,7 @@ import { useAuthContext } from "./useAuthContext"
 
 export const useLogin = () => {
     const [error, setError] = useState(null)
+    const [isResend, setIsResend] = useState(false)
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
 
@@ -13,7 +14,6 @@ export const useLogin = () => {
         axios.post('/api/auth/google', {  
           code,
         }).then(response => {
-          console.log(response)
           const json = response.data;
           // save the user to local storage
           localStorage.setItem('user', JSON.stringify(json))
@@ -24,7 +24,6 @@ export const useLogin = () => {
           
         })
         .catch(error => {
-          console.log(error.response.data)
           setIsLoading(false)
           setError(error.response.data.error)
         });
@@ -44,7 +43,6 @@ export const useLogin = () => {
             }
           })
           .then(response => {
-            console.log(response)
             const json = response.data;
             // save the user to local storage
             localStorage.setItem('user', JSON.stringify(json))
@@ -55,10 +53,15 @@ export const useLogin = () => {
             
           })
           .catch(error => {
-            console.log(error.response.data)
             setIsLoading(false)
             setError(error.response.data.error)
+            if (error.response.data.button) setIsResend(true)
           });
         }
-  return { login, googleLogin, isLoading, error}
+
+    const resendEmail = async (email) => {
+      await axios.post("/api/user/resend-email", {email})
+        .then( response => setError(response.data.error))
+    }
+  return { login, googleLogin, isLoading, error, isResend, setError, setIsResend, resendEmail}
 }

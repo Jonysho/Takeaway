@@ -4,8 +4,8 @@ import { useAuthContext } from "./useAuthContext"
 
 export const useSignup = () => {
     const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const { dispatch } = useAuthContext()
 
     const signup = async (firstname, lastname, email, password, phone) => {
         setIsLoading(true)
@@ -24,14 +24,7 @@ export const useSignup = () => {
           })
           .then(response => {
             console.log(response)
-            const json = response.data;
-            // save the user to local storage
-            localStorage.setItem('user', JSON.stringify(json))
-            
-            // update the auth context
-            dispatch({type: 'LOGIN', payload: json})
-            setIsLoading(false)
-            
+            setMessage(response.data.message)
           })
           .catch(error => {
             console.log(error.response.data)
@@ -40,5 +33,5 @@ export const useSignup = () => {
           });
     }
 
-    return { signup, isLoading, error}
+    return { signup, isLoading, error, message, setMessage}
 }

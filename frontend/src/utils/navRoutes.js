@@ -1,4 +1,5 @@
 import AuthRoute from "../components/AuthRoute";
+import EmailVerify from "../pages/EmailVerify";
 import Checkout from "../pages/Checkout";
 import Error404 from "../pages/Error404";
 import Favourites from "../pages/Favourites";
@@ -59,6 +60,10 @@ const withoutNavRoutes = [
     {
         path: '/checkout',
         element: <AuthRoute element={<Checkout />} redirectPath="/login" />
+    },
+    {
+        path: '/user/:id/verify/:token',
+        element: <EmailVerify/>
     },
     {
         path: '*',

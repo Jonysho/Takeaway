@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         collation: { locale: 'en', strength: 2 } // specify a case-insensitive collation
     },
+    verified: {
+        type: Boolean,
+        default: false
+    },
     password: {
         type: String,
         trim: true,
@@ -75,7 +79,6 @@ UserSchema.statics.login = async function(email, password){
     } 
 
     const user = await this.findOne({ email })
-    console.log(user)
     if (!user) {
         throw Error('Email does not exist.')
     }

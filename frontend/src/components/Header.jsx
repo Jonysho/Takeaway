@@ -9,12 +9,14 @@ import Navbar from './Navbar';
 import Info from './Info';
 import { useClickOutside } from '../customHooks/useClickOutside';
 import { useAuthContext } from '../customHooks/useAuthContext';
+import { useDetails } from '../customHooks/useDetails';
 
 const Header = ({total, location, isShopOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
   const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
   const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
   const { user } = useAuthContext()
+  const {userInfo, getDetails} = useDetails()
 
   const resetNavs = () => {
     setIsNavDTOpen(false);
@@ -23,7 +25,13 @@ const Header = ({total, location, isShopOpen}) => {
   }
 
   const navRef = useClickOutside(resetNavs);
-  
+
+  useEffect(() => {
+    if (user){
+        getDetails(user.id, user.token)
+    }
+}, [user])
+
   useEffect(() => {
     resetNavs()
   }, [location])
@@ -52,7 +60,7 @@ const Header = ({total, location, isShopOpen}) => {
           <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
             <HiUserCircle size={22}/>
             <div className='ml-4 flex cursor-pointer' onClick={() => setIsNavDTOpen(!isNavDTOpen)}>
-              <span className='text-xl font-semibold pr-2'>{user && user.firstname}</span>
+              <span className='text-xl font-semibold pr-2'>{userInfo && userInfo.firstname}</span>
               {!isNavDTOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
             </div>
             {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>} {/*Triangle Above navbox*/}

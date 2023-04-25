@@ -8,10 +8,12 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [visible, setVisible] = useState(false)
-    const {login, googleLogin, error, isLoading} = useLogin()
+    const {login, googleLogin, error, isLoading, isResend, setError, setIsResend, resendEmail} = useLogin()
     
     const handleLogin = async (e) => {
         e.preventDefault()
+        setError(null)
+        setIsResend(false)
         await login(email, password)
     }
 
@@ -20,9 +22,13 @@ const Login = () => {
         googleLogin()
     }
 
+    const handleResend = async(e) => {
+        e.preventDefault()
+        resendEmail(email)
+    }
     return ( 
         <div className="w-full h-full p-10">
-        <div className="mb-6">
+        <div>
             <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl lg:mx-4 text-center text-green-600 drop-shadow-sm">Login</h1>
             <div className="pt-6 mx-4 sm:mx-12 lg:mx-18 text-center text-gray-700 font-bold">
                 <label>Please enter your details to proceed</label>
@@ -47,10 +53,13 @@ const Login = () => {
                     </NavLink>
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
+                    <label htmlFor="error" className="text-red-600 font-bold pr-2">
+                        {error} 
+                    </label>
+                    {isResend && <button className="text-gray-600 hover:text-gray-500 font-bold" onClick={e => handleResend(e)}>Click here to send again.</button>}
                 </div>
                 <button type="submit" disabled={isLoading} onClick={e => handleLogin(e)} className='submitBtn mb-6'>Login</button>
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-6">
                     <button 
                         className="bg-white text-gray-700 font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-100 focus:outline-none focus:shadow-outline"
                         onClick={e => handleGoogleLogin(e)}

@@ -20,13 +20,11 @@ export const usePassword = (resetFields) => {
         })
         .then(response => {
             const json = response.data
-            console.log(json)
             setIsLoading(false)
             resetFields()
             setMessage(json.message)
         })
         .catch(error => {
-            console.log(error)
             setError(error.response.data.error)
             setIsLoading(false)
         });

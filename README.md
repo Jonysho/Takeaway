@@ -31,7 +31,7 @@ backend: npm i express
     - [X] Saved Dishes
     - [X] Account settings page
     - [X] Change Password
-    - [ ] Login / Register / Forget Password
+    - [X] Login / Register / Forget Password
 - [X] Buttons for Log in / Register, Shopping cart
 - [X] Navbar to traverse the page
 
@@ -41,7 +41,9 @@ backend: npm i express
 - [X] User registration/login
 - [X] User Sessions (remain authenticated as they navigate) + Logout
 - [X] User profile - reset passwords / change details
-- [ ] Phone / Email Verification (For creating accounts & changing details)
+- [X] Phone / Email Verification (For creating accounts & changing details)
+    - [X] - Email
+    - [ ] - Phone (Maybe)
 - [X] OAuth Login - Login with social media e.g. Google/FB
     - [X] - Google
     - [ ] - Facebook (to do later)

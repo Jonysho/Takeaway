@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { useAuthContext } from "../customHooks/useAuthContext";
 
 export const useUpdate = () => {
     const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const { dispatch } = useAuthContext()
 
     const updateDetails = async (id, token, details) => {       
         setIsLoading(true)
@@ -20,17 +19,14 @@ export const useUpdate = () => {
             }
         })
         .then(response => {
-            const json = response.data
-            // update the auth context
-            dispatch({type: 'UPDATE', payload: json})
+            setMessage(response.data.message)
             setIsLoading(false)
         })
         .catch(error => {
-            console.log(error.response.data)
             setIsLoading(false)
             setError(error.response.data.error)
         });
     }
 
-    return { updateDetails, error, isLoading }
+    return { updateDetails, message, setMessage, error, setError, isLoading }
 }
