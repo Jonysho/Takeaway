@@ -22,11 +22,8 @@ backend: npm i express
 - [ ] Create Layout of pages:
     - [X] Header
     - [ ] Footer
-- [ ] Create all required pages:
-    - [X] Home
-    - [ ] Menu
-    - [ ] My Orders
-    - [ ] Checkout page
+- [X] Create all required pages:
+    - [X] Home 
     - [X] Favourite Orders 
     - [X] Saved Dishes
     - [X] Account settings page
@@ -36,23 +33,45 @@ backend: npm i express
 - [X] Navbar to traverse the page
 
 #### User Authentication & Authorization - Sprint 2
-- [X] Add/Get/Delete/Update users
+- [X] Add/Update users
 - [X] Add all validation checks for fields
 - [X] User registration/login
 - [X] User Sessions (remain authenticated as they navigate) + Logout
 - [X] User profile - reset passwords / change details
 - [X] Phone / Email Verification (For creating accounts & changing details)
-    - [X] - Email
-    - [ ] - Phone (Maybe)
+    - [X] Email
+    - [ ] Phone (Maybe)
 - [X] OAuth Login - Login with social media e.g. Google/FB
-    - [X] - Google
-    - [ ] - Facebook (to do later)
+    - [X] Google
+    - [ ] Facebook (to do later)
+
+#### Menu display - Sprint 3
+- [ ] Admin users
+    - [X] Implement isAdmin property for user accounts
+    - [ ] Add isAdmin function to authContext to protect pages (frontend)
+    - [X] Add requireAdminAuth middleware to protect admin Routes 
+    - [ ] Create admin dashboard for functionalities:
+        - [ ] get all users, delete users
+        - [ ] Create/Read/Update/Delete menu items
+
+- [X] Menu Schema
+- [X] Menu controller functions
+    - [X] Create, Read, Update, Delete
+- [ ] Create menu display cards
+- [ ] Finish menu page
+    - [ ] Fetch all menu items and display all
+    - [ ] Add filter section 
+
+#### Shopping Cart functionality
+- [ ] Add Cart array for User documents
+- [ ] Create/Read/Update Cart array (using Menu Item IDs)
+- [ ] Calculate price using IDs and Menu Prices
+- [ ] Update (Read) price on frontend
+- [ ] Cart dropdown
+
 
 #### To do later:
-#### Menu display 
 #### Online Ordering System
-#### Shopping Cart functionality
 #### Payment processing system
 #### Real-time order tracking system (track status of orders from kitchen to delivery)
 #### Customer reviews / ratings system
-#### Customer support / messaging system

@@ -8,14 +8,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        default: ''
     },
     lastname: {
         type: String,
         trim: true,
+        default: ''
     },
     phone: {
         type: String,
         trim: true,
+        default: ''
     },
     email: {
         type: String,
@@ -27,18 +30,25 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     password: {
         type: String,
         trim: true,
     },
     favourites: {
         type: [Number],
+        default: [],
     },
     recents: {
         type: [Number],
+        default: [],
     },
     dishes: {
         type: [Number],
+        default: [],
     },
 })
 
@@ -82,26 +92,12 @@ UserSchema.statics.login = async function(email, password){
     if (!user) {
         throw Error('Email does not exist.')
     }
-
+    if (!user.password) {
+        throw Error('Please login through Google.')
+    }
     const match = await bcrypt.compare(password, user.password)
     if (!match) {
         throw Error('Incorrect password')
-    }
-
-    return user
-}
-
-UserSchema.statics.getUserDetails = async function(userId) {
-    // Validation
-    if (!userId){
-        throw Error('User ID is required.')
-    } 
-
-    // Find user by ID
-    const user = await this.findById(userId)
-
-    if (!user) {
-        throw Error('User does not exist.')
     }
     return user
 }
@@ -191,7 +187,10 @@ UserSchema.statics.updateDetails = async function(userId, firstname, lastname, e
 }
 
 UserSchema.methods.generateJWT = function() {
-    const token = jwt.sign({ _id: this._id }, process.env.secret, { expiresIn: '12h' });
+    const token = jwt.sign({ 
+        _id: this._id,
+        isAdmin: this.isAdmin
+    }, process.env.secret, { expiresIn: '12h' });
     return token;
   };
 

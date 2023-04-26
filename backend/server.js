@@ -1,10 +1,10 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
-const userRoutes = require('./routes/user');
 const { db } = require('./db/db')
+const userRoutes = require('./routes/user');
 const authRoutes = require("./routes/auth");
+const menuRoutes = require("./routes/menu");
 
 const app = express();
 const PORT = process.env.PORT
@@ -22,14 +22,10 @@ app.use(express.static('public'))
 
 app.use('/api/user', userRoutes);
 
-// Google OAuth2.0
+// Google OAuth2.0 
 app.use("/api/auth", authRoutes)
 
-// Menu PDF 
-app.get('/pdf', function(req, res) {
-  const filePath = path.join(__dirname, 'public', 'menu.pdf');
-  res.sendFile(filePath);
-});
+app.use("/api/menu", menuRoutes)
 
 // Google Maps API 
 app.get('/api/map', (req, res) => {

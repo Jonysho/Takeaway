@@ -60,7 +60,7 @@ const Header = ({total, location, isShopOpen}) => {
           <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
             <HiUserCircle size={22}/>
             <div className='ml-4 flex cursor-pointer' onClick={() => setIsNavDTOpen(!isNavDTOpen)}>
-              <span className='text-xl font-semibold pr-2'>{userInfo && userInfo.firstname}</span>
+              <span className='text-xl font-semibold pr-2'>{userInfo.firstname} </span>
               {!isNavDTOpen ? <IoIosArrowDown size={30}/> : <IoIosArrowUp size={30}/>}
             </div>
             {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>} {/*Triangle Above navbox*/}
