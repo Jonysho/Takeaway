@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CardLayout from "../components/CardLayout";
+import CardLayout from "../../components/CardLayout";
 
 const SavedDishes = () => {
 

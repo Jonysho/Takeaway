@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../customHooks/useAuthContext";
-import { useUpdate } from "../customHooks/useUpdate";
-import { useDetails } from "../customHooks/useDetails";
+import { useAuthContext } from "../../customHooks/useAuthContext";
+import { useUpdate } from "../../customHooks/useUpdate";
+import { useDetails } from "../../customHooks/useDetails";
 
 const MyDetails = () => {
     const [firstname, setFirstname] = useState('')

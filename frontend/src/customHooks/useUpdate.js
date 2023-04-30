@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import { updateDetailsAPI } from "../api/userApi";
 
 export const useUpdate = () => {
     const [error, setError] = useState(null)
@@ -10,22 +10,15 @@ export const useUpdate = () => {
         setIsLoading(true)
         setError(null)
 
-        axios.patch(`/api/user/update-details/${id}`, {
-            ...details, id
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            setMessage(response.data.message)
-            setIsLoading(false)
-        })
-        .catch(error => {
-            setIsLoading(false)
-            setError(error.response.data.error)
-        });
+        updateDetailsAPI(id, token, details)
+            .then(response => {
+                setMessage(response.data.message)
+                setIsLoading(false)
+            })
+            .catch(error => {
+                setIsLoading(false)
+                setError(error.response.data.error)
+            });
     }
 
     return { updateDetails, message, setMessage, error, setError, isLoading }

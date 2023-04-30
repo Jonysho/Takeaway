@@ -1,44 +1,58 @@
-import {createContext, useEffect, useReducer} from 'react';
+import { createContext, useEffect, useReducer } from 'react';
+import { checkAdminTokenAPI, checkUserTokenAPI } from '../api/authApi';
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
-    switch(action.type) {
-        case 'LOGIN':
-            return { user: action.payload }
-        case 'LOGOUT':
-            return { user: null }
-        case 'UPDATE':
-            const updatedUser = {
-                ...state.user,
-                ...action.payload,
-            };
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-            return {
-                ...state,
-                user: updatedUser,
-            };
-        default:
-            return state
-    }
-}
+  switch (action.type) {
+    case 'LOGIN':
+      console.log(action.payload)
+      // save the user to local storage
+      localStorage.setItem('user', JSON.stringify(action.payload))
+      return { user: action.payload }
+    case 'LOGOUT':
+      // Remove user from storage
+      localStorage.removeItem('user')
+      return { user: null };
+    default:
+      return state;
+  }
+};
 
 export const AuthContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(authReducer, {
-        user: null
-    })
+  const [state, dispatch] = useReducer(authReducer, {
+    user: null,
+  });
 
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user'))
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
 
-        if (user) {
-            dispatch({type: 'LOGIN', payload: user})
-        } 
-    }, [])
+    if (user) {
+      const token = user.token;
+      // Check if the token has expired
+      checkUserTokenAPI(token)
+        .then(() => {
+          // Check admin token
+          checkAdminTokenAPI(token)
+          .then(() => {
+              dispatch({ type: 'LOGIN', payload: {...user, isAdmin: true} });
+            })
+            .catch(() => {
+              console.log("not admin")
+              dispatch({ type: 'LOGIN', payload: {...user, isAdmin: false} });
 
-    return (
-        <AuthContext.Provider value={{...state, dispatch}}>
-            { children }
-        </AuthContext.Provider>
-    )
-}
+            });
+        }).catch(() => {
+          console.log("LOGOUT")
+          dispatch({ type: 'LOGOUT' });
+        })
+      
+    }    
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

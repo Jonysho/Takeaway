@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { useLogin } from "../customHooks/useLogin";
+import { useLogin } from "../../customHooks/useLogin";
 import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {

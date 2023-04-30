@@ -1,4 +1,4 @@
-import CardLayout from "../components/CardLayout";
+import CardLayout from "../../components/CardLayout";
 
 const Home = () => {
     const randomCards = [];

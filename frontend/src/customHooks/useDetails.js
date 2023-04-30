@@ -1,16 +1,11 @@
-import axios from "axios"
 import { useState } from "react"
+import { getDetailsAPI } from "../api/userApi"
 
 export const useDetails = () => {
     const [userInfo, setUserInfo] = useState(null)
 
     const getDetails = (id, token) => {
-        axios.get(`/api/user/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        getDetailsAPI(id, token)
         .then(response => {
             setUserInfo(response.data)
         })

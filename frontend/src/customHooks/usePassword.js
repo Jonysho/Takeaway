@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import { changePasswordAPI } from "../api/userApi";
 
 export const usePassword = (resetFields) => {
     const [error, setError] = useState(null)
@@ -10,14 +10,7 @@ export const usePassword = (resetFields) => {
         setIsLoading(true)
         setError(null)
 
-        axios.patch(`/api/user/change-password/${id}`, {
-            ...details, id
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        changePasswordAPI(id, token, details)
         .then(response => {
             const json = response.data
             setIsLoading(false)

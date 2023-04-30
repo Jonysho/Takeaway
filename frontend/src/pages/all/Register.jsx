@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import PasswordCheck from "../components/PasswordCheck";
-import { useSignup } from "../customHooks/useSignup";
+import PasswordCheck from "../../components/PasswordCheck";
+import { useSignup } from "../../customHooks/useSignup";
 
 const Register = () => {
     const [firstname, setFirstname] = useState('')

@@ -86,7 +86,7 @@ const googleLogin = async (req, res, access_token) => {
             return res.status(200).json({id: newUser._id, token})
         } else{
             const token = user.generateJWT()
-            return res.status(200).json({id: user._id, token })
+            return res.status(200).json({id: user._id, token, isAdmin: user.isAdmin })
         }
     }).catch(err => {
         console.log(err)
@@ -115,7 +115,7 @@ const login = async (req, res) => {
         const token = user.generateJWT()
 
         // Send back user id and auth token if login is successful
-        return res.status(200).json({id: user._id, token})
+        return res.status(200).json({id: user._id, token, isAdmin: user.isAdmin})
     } catch (error) {
         console.log(error)
         return res.status(400).json({error: error.message})
@@ -145,7 +145,7 @@ const register = async (req, res) => {
 const getUserDetails = async (req, res) => {
     const { id } = req.params
     try {
-        const user = await this.findById(userId)
+        const user = await User.findById({_id: id})
         if (!user) {
             return res.status(400).json({error: "User does not exist."})
         }

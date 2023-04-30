@@ -1,7 +1,7 @@
 import { IoIosArrowForward } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-import { useLogout } from "../customHooks/useLogout";
-import { navItems } from "../utils/navItems";
+import { useLogout } from "../../customHooks/useLogout";
+import { navItems } from "../../utils/navItems";
 
 const Navbar = ({user}) => {
     const { logout } = useLogout()

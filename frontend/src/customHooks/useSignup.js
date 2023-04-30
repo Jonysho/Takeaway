@@ -1,6 +1,5 @@
-import axios from "axios"
 import { useState } from "react"
-import { useAuthContext } from "./useAuthContext"
+import { signupAPI } from "../api/authApi"
 
 export const useSignup = () => {
     const [error, setError] = useState(null)
@@ -11,17 +10,7 @@ export const useSignup = () => {
         setIsLoading(true)
         setError(null)
         
-        axios.post('/api/auth/register', {
-            firstname: firstname,
-            lastname: lastname,
-            email: email,
-            password: password,
-            phone: phone,
-          }, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
+        signupAPI(firstname, lastname, email, password, phone)
           .then(response => {
             console.log(response)
             setMessage(response.data.message)

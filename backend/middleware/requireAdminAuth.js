@@ -5,7 +5,7 @@ const User = require("../models/UserModel")
 const requireAdminAuth = async (req, res, next) => {
     // verify authentication
     const { authorization } = req.headers;
-  
+    
     if (!authorization){
       return res.status(401).json({error: 'Authentication token required.'});
     }
@@ -19,7 +19,6 @@ const requireAdminAuth = async (req, res, next) => {
         req.user = await User.findById(_id).select('_id');
         next();
     } catch(error) {
-        console.log(error);
         res.status(401).json({error: 'Admin authentication failed. Request is not authorized.'});
     }
 }

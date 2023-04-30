@@ -1,8 +1,7 @@
 import { useState } from "react";
-import CardLayout from "../components/CardLayout";
+import CardLayout from "../../components/CardLayout";
 
 const Favourites = () => {
-
     // Get favourite orders for current user from MongoDB
     const [favourites, setFavourites] = useState(null)
 

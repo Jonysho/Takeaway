@@ -2,37 +2,36 @@ import {AiTwotoneHome, AiFillLock} from "react-icons/ai";
 import {MdOutlineFavorite} from "react-icons/md";
 import {GiBowlOfRice} from "react-icons/gi";
 import {HiUserCircle} from "react-icons/hi";
-import {BiLogOut} from "react-icons/bi";
 
 export const navItems = [
     {
         id: 1,
         title: 'Home',
         link: '/',
-        icon: AiTwotoneHome,
+        icon: <AiTwotoneHome size={30}/>,
     },
     {
         id: 2,
         title: 'Favourite Orders',
         link: '/favourites',
-        icon: MdOutlineFavorite,
+        icon: <MdOutlineFavorite size={30}/>,
     },
     {
         id: 3,
         title: 'Saved Dishes',
         link: '/saved-dishes',
-        icon: GiBowlOfRice,
+        icon: <GiBowlOfRice size={30}/>,
     },
     {
         id: 4,
         title: 'My Details',
         link: '/personal-details',
-        icon: HiUserCircle,
+        icon: <HiUserCircle size={30}/>,
     },
     {
         id: 5,
         title: 'Change Password',
         link: '/security',
-        icon: AiFillLock,
+        icon: <AiFillLock size={30}/>,
     },
 ]

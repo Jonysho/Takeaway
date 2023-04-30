@@ -69,9 +69,16 @@ backend: npm i express
 - [ ] Update (Read) price on frontend
 - [ ] Cart dropdown
 
-
 #### To do later:
 #### Online Ordering System
 #### Payment processing system
+
+#### Finish Admin Dashboard
+- [ ] Dashboard
+- [ ] Current active orders (mark as complete, update order status)
+- [ ] Income (charts, recent orders, filter by days etc.)
+
 #### Real-time order tracking system (track status of orders from kitchen to delivery)
+
+
 #### Customer reviews / ratings system

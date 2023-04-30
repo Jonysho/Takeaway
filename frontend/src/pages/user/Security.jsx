@@ -1,9 +1,9 @@
 import { useState } from "react";
 import {AiFillEyeInvisible, AiFillEye}  from 'react-icons/ai'
 import {VscCheck, VscChromeClose, VscChromeMinimize} from 'react-icons/vsc';
-import PasswordCheck from "../components/PasswordCheck";
-import { useAuthContext } from "../customHooks/useAuthContext";
-import { usePassword } from "../customHooks/usePassword"; 
+import PasswordCheck from "../../components/PasswordCheck";
+import { useAuthContext } from "../../customHooks/useAuthContext";
+import { usePassword } from "../../customHooks/usePassword"; 
 
 const Security = () => {
     const [password, setPassword] = useState('')

@@ -1,7 +1,8 @@
 import { useGoogleLogin } from "@react-oauth/google"
-import axios from "axios"
 import { useState } from "react"
 import { useAuthContext } from "./useAuthContext"
+import { googleLoginAPI, loginAPI } from "../api/authApi"
+import { resendEmailAPI } from "../api/userApi"
 
 export const useLogin = () => {
     const [error, setError] = useState(null)
@@ -11,22 +12,17 @@ export const useLogin = () => {
 
     const googleLogin = useGoogleLogin({
       onSuccess: async ({code}) => {
-        axios.post('/api/auth/google', {  
-          code,
-        }).then(response => {
-          const json = response.data;
-          // save the user to local storage
-          localStorage.setItem('user', JSON.stringify(json))
-          
-          // update the auth context
-          dispatch({type: 'LOGIN', payload: json})
-          setIsLoading(false)
-          
-        })
-        .catch(error => {
-          setIsLoading(false)
-          setError(error.response.data.error)
-        });
+        googleLoginAPI(code).then(response => {
+            const json = response.data;
+            // update the auth context
+            dispatch({type: 'LOGIN', payload: json})
+            setIsLoading(false)
+            
+          })
+          .catch(error => {
+            setIsLoading(false)
+            setError(error.response.data.error)
+          });
       },
       flow: 'auth-code',
     })
@@ -34,19 +30,10 @@ export const useLogin = () => {
     const login = async (email, password) => {
         setIsLoading(true)
         setError(null)
-        axios.post('/api/auth/login', {
-            email: email,
-            password: password,
-          }, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
+        loginAPI(email, password)
           .then(response => {
             const json = response.data;
-            // save the user to local storage
-            localStorage.setItem('user', JSON.stringify(json))
-            
+
             // update the auth context
             dispatch({type: 'LOGIN', payload: json})
             setIsLoading(false)
@@ -60,7 +47,7 @@ export const useLogin = () => {
         }
 
     const resendEmail = async (email) => {
-      await axios.post("/api/user/resend-email", {email})
+      await resendEmailAPI(email)
         .then( response => setError(response.data.error))
     }
   return { login, googleLogin, isLoading, error, isResend, setError, setIsResend, resendEmail}

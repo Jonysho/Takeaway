@@ -1,19 +1,22 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useState } from "react";
-import { useLocation, useRoutes } from "react-router-dom";
+import { useActionData, useLocation, useRoutes } from "react-router-dom";
 import {withNavRoutes,  withoutNavRoutes} from './utils/navRoutes';
-import SideNav from "./components/SideNav";
+import SideNav from "./components/navigation/SideNav";
 import { navItems } from "./utils/navItems";
 import ContentTitle from "./components/ContentTitle";
+import { adminNavItems } from "./utils/adminNavItems";
+import { useAuthContext } from "./customHooks/useAuthContext";
 
 const App = () => {
   const [total, setTotal] = useState(0)
   const [isShopOpen, setIsShopOpen] = useState(false)
   const location = useLocation();
+  const { user } = useAuthContext()
   
   // Check if page needs rendering with or without side nav
-  const checkLocation = () => {
+  const isWithSideNav = () => {
     let withNav = false;
     withNavRoutes.map(route => {
       if (route.path === location.pathname){
@@ -21,11 +24,15 @@ const App = () => {
       })
       
       return withNav
-    }
+  }
+
+  const isAdminLocation = () => {
+    return location.pathname.startsWith("/admin")
+  }
 
   const navContent = useRoutes(withNavRoutes)
   const otherContent = useRoutes(withoutNavRoutes)
-    
+
   return (
     <div className="bg-gray-50 absolute top-0 left-0 h-full w-full overflow-auto">
       <div className="flex flex-col"> 
@@ -33,14 +40,14 @@ const App = () => {
           <Header total={total} location={location} isShopOpen={isShopOpen}/>
         </div>
         <main className="h-full flex flex-col">
-        {!checkLocation() ? 
+        {!isWithSideNav() ? 
           (
             <div> {otherContent} </div>
           ) : <div className="px-4 py-6 flex-1">
-            <ContentTitle location={location}/>
               <div className="flex">
-              <SideNav navItems={navItems}/>
+                {user && <SideNav navItems={isAdminLocation() ? adminNavItems : navItems}/>}
                 <div className="p-4 w-full">
+                  <ContentTitle location={location}/>
                   {navContent}
                 </div>
               </div>

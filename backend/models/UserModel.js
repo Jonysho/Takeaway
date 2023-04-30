@@ -190,7 +190,7 @@ UserSchema.methods.generateJWT = function() {
     const token = jwt.sign({ 
         _id: this._id,
         isAdmin: this.isAdmin
-    }, process.env.secret, { expiresIn: '12h' });
+    }, process.env.secret, { expiresIn: '12hr' });
     return token;
   };
 

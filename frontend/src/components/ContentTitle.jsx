@@ -19,7 +19,7 @@ const ContentTitle = ({location}) => {
     }, [location])
 
     return ( 
-        <div className="sm:mb-1 lg:mb-3 lg:pl-[17rem]">
+        <div className="mb-5">
             <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl lg:mx-4 text-center text-green-600 drop-shadow-sm">{title}</h1>
         </div>
      );
