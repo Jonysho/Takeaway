@@ -2,18 +2,18 @@ import { IoIosArrowForward } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { useLogout } from "../../customHooks/useLogout";
 import { navItems } from "../../utils/navItems";
+import { adminNavItems } from "../../utils/adminNavItems";
 
-const Navbar = ({user}) => {
+const Navbar = ({user, firstname}) => {
     const { logout } = useLogout()
     const handleClick = () => {
         logout()
-        console.log("Logged out.")
     }
     return ( 
         <ul className="pt-5 w-[90%] ml-6 lg:w-full lg:ml-0 lg:pt-0">
             { user ? (
             <div>
-                <span className="lg:hidden text-xl text-gray-700 text-bold flex items-center justify-between pl-7 pb-2 border-b-2 ">{user.firstname}</span>                    
+                <span className="lg:hidden text-xl text-gray-700 text-bold flex items-center justify-between pl-7 pb-2 border-b-2 ">{firstname}</span>
                 {navItems.map((item, index) => {
                     return <li key={item.id} className={"border-b-2 border-gray-700/20"}>
                     <NavLink to={item.link}>
@@ -22,6 +22,17 @@ const Navbar = ({user}) => {
                     </NavLink>
                     </li>
                 })}
+                {user.isAdmin && <div className="mt-5">
+                    <span className="text-xl text-gray-700 text-bold flex items-center justify-between pl-7 pb-2 border-b-2 ">Admin</span>                    
+                    {adminNavItems.map((item, index) => {
+                        return <li key={item.id} className={"border-b-2 border-gray-700/20"}>
+                        <NavLink to={item.link}>
+                        <span className='flex items-center justify-between p-3 sm:p-4 ml-6 lg:mx-3 lg:p-3 text-red-700 hover:text-red-600 font-semibold'> {item.title} <IoIosArrowForward size={26}/>
+                        </span>
+                        </NavLink>
+                        </li>
+                    })}
+                </div>}
                 <li key="logout" onClick={handleClick} className="cursor-pointer">
                 <span className='flex items-center justify-between p-3 sm:p-4 ml-6 lg:mx-3 lg:p-3 text-red-700 hover:text-red-600 font-semibold'> Logout <IoIosArrowForward size={26}/> 
                 </span>

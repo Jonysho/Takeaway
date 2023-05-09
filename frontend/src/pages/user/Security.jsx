@@ -56,7 +56,7 @@ const Security = () => {
     }
 
     return ( 
-        <div className="h-full bg-white shadow-md max-w-xl mx-auto">
+        <div className="bg-white shadow-md max-w-xl mx-auto">
             <div className="pt-6 mx-4 sm:mx-12 lg:mx-18 text-center text-gray-700 font-bold">
                 <label>Please change your password so we can have you ordering pizza in no time.</label>
             </div>

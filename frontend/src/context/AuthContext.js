@@ -6,7 +6,6 @@ export const AuthContext = createContext();
 export const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      console.log(action.payload)
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(action.payload))
       return { user: action.payload }
@@ -38,12 +37,10 @@ export const AuthContextProvider = ({ children }) => {
               dispatch({ type: 'LOGIN', payload: {...user, isAdmin: true} });
             })
             .catch(() => {
-              console.log("not admin")
               dispatch({ type: 'LOGIN', payload: {...user, isAdmin: false} });
 
             });
         }).catch(() => {
-          console.log("LOGOUT")
           dispatch({ type: 'LOGOUT' });
         })
       

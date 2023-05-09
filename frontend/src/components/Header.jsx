@@ -11,9 +11,8 @@ import { useClickOutside } from '../customHooks/useClickOutside';
 import { useAuthContext } from '../customHooks/useAuthContext';
 import { useDetails } from '../customHooks/useDetails';
 
-const Header = ({total, location, isShopOpen}) => {
+const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
-  const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
   const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
   const { user } = useAuthContext()
   const {userInfo, getDetails} = useDetails()
@@ -27,10 +26,10 @@ const Header = ({total, location, isShopOpen}) => {
   const navRef = useClickOutside(resetNavs);
 
   useEffect(() => {
-    if (user){
-      getDetails(user.id, user.token)
-    }
-}, [user])
+      if (user){
+        getDetails(user.id, user.token)
+      }
+  }, [user])
 
   useEffect(() => {
     resetNavs()
@@ -44,8 +43,8 @@ const Header = ({total, location, isShopOpen}) => {
             {!isNavMBOpen ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
             </div>
           </div>
-          <nav className={isNavMBOpen ? 'bg-white w-full h-full fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 block lg:hidden' : 'fixed left-[-100%]'}>
-              <Navbar user={user}/>
+          <nav className={isNavMBOpen ? 'bg-white w-full h-[calc(100vh-6rem)] sm:h-[calc(100vh-9rem)] overflow-y-auto fixed top-24 sm:top-36 left-0 flex-col flex-grow ease-in-out duration-500 block lg:hidden' : 'fixed left-[-100%]'}>
+              <Navbar user={user} firstname={userInfo && userInfo.firstname}/>
           </nav>
           <NavLink to="/" className='p-1 font-bold text-xl sm:text-3xl lg:text-5xl items-center m-auto'><h1>Ho's Kitchen</h1></NavLink>
             <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8 lg:hidden'>
@@ -66,7 +65,7 @@ const Header = ({total, location, isShopOpen}) => {
             {isNavDTOpen && <div className='absolute top-12 left-14 w-0 h-0 border-[20px] border-transparent border-t-0 border-b-[25px] border-b-white'></div>} {/*Triangle Above navbox*/}
             {isNavDTOpen && 
               <nav className='bg-white absolute right-0 top-10 z-1000 text-black shadow-xl my-8 p-4 w-[22rem] transition-all ease-in-out duration-300 transform translate-x-full lg:translate-x-0'>
-              <Navbar user={user}/>
+              <Navbar user={user} firstname={userInfo && userInfo.firstname}/>
               </nav>}
           </div> ) :
           (

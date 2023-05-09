@@ -8,12 +8,14 @@ import { navItems } from "./utils/navItems";
 import ContentTitle from "./components/ContentTitle";
 import { adminNavItems } from "./utils/adminNavItems";
 import { useAuthContext } from "./customHooks/useAuthContext";
+import Navbar from "./components/navigation/Navbar";
 
 const App = () => {
   const [total, setTotal] = useState(0)
   const [isShopOpen, setIsShopOpen] = useState(false)
   const location = useLocation();
   const { user } = useAuthContext()
+  const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
   
   // Check if page needs rendering with or without side nav
   const isWithSideNav = () => {
@@ -34,10 +36,10 @@ const App = () => {
   const otherContent = useRoutes(withoutNavRoutes)
 
   return (
-    <div className="bg-gray-50 absolute top-0 left-0 h-full w-full overflow-auto">
-      <div className="flex flex-col"> 
+    <div className={`bg-gray-50 absolute top-0 left-0 h-full w-full ${isNavMBOpen ? 'overflow-hidden' : 'overflow-auto'}`}>
+      <div className="flex flex-col">
         <div className='sticky top-[-3rem] sm:top-[-4.5rem] lg:top-[-8.6rem] z-[800]'>
-          <Header total={total} location={location} isShopOpen={isShopOpen}/>
+          <Header total={total} location={location} isShopOpen={isShopOpen} isNavMBOpen={isNavMBOpen} setIsNavMBOpen={setIsNavMBOpen}/>
         </div>
         <main className="h-full flex flex-col">
         {!isWithSideNav() ? 
@@ -47,7 +49,7 @@ const App = () => {
               <div className="flex">
                 {user && <SideNav navItems={isAdminLocation() ? adminNavItems : navItems}/>}
                 <div className="p-4 w-full">
-                  <ContentTitle location={location}/>
+                  <ContentTitle location={location} navItems={isAdminLocation() ? adminNavItems : navItems}/>
                   {navContent}
                 </div>
               </div>

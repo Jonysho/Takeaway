@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { navItems } from "../utils/navItems";
 
-const ContentTitle = ({location}) => {
+const ContentTitle = ({location, navItems}) => {
     const [title, setTitle] = useState('Home')
         
     const findTitle = (path) => {

@@ -6,7 +6,6 @@ const AdminAuthRoute = ({element}) => {
     if (!user) {
         return <Navigate to="/login"/>
     }
-    console.log(user.isAdmin)
     return user.isAdmin ? element : <Navigate to="/"/>
 }
  

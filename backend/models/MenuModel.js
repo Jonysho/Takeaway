@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const itemSizeSchema = new mongoose.Schema({
+    _id: mongoose.Types.ObjectId,
     // small, regular, large, for duck: 1/4, 1/2
     size: {
       type: String,
       required: true,
-      unique: true,
     },
     price: {
       type: Number,
@@ -24,7 +24,7 @@ const menuItemSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    type: {
+    category: {
         type: String,
         required: true,
     },
@@ -41,13 +41,17 @@ const menuItemSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
-        default: 1
     },
-    size: {
+    image: {
+        type: String,
+        required: true,
+    },
+    portions: {
       type: [itemSizeSchema],
       default: [],
       required: true
     },
 });
 
+menuItemSchema.index({ 'size.size': 1 }, { unique: false });
 module.exports = mongoose.model('MenuItem', menuItemSchema);

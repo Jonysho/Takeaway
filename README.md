@@ -52,8 +52,8 @@ backend: npm i express
     - [X] Add requireAdminAuth middleware to protect admin Routes 
     - [ ] Create admin dashboard for functionalities:
         - [ ] get all users, delete users
-        - [ ] Create/Read/Update/Delete menu items
-
+        - [ ] Create/Update/Delete menu items
+        - [ ] Upload of images for menu card
 - [X] Menu Schema
 - [X] Menu controller functions
     - [X] Create, Read, Update, Delete

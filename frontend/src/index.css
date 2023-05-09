@@ -12,7 +12,7 @@
 }
 
 .inputbox {
-    @apply text-sm lg:text-base border p-2 w-full rounded-md focus:outline-none pr-10
+    @apply text-sm lg:text-base border p-2 w-full rounded-md focus:outline-none lg:pr-10
 }
 
 .submitBtn {

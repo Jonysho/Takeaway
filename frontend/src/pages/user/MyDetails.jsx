@@ -43,21 +43,21 @@ const MyDetails = () => {
     }
 
     return ( 
-        <div className="h-full bg-white shadow-md max-w-xl mx-auto">
+        <div className="bg-white shadow-md max-w-xl mx-auto">
             <form className="mx-4 p-6">
-                <div className="mb-4">
+                <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">First Name:</label>
                     <input type="text" value={firstname} name="firstname" onChange={e => {setFirstname(e.target.value); updateFields()}} className="inputbox border-gray-400 focus:border-blue-700"/>
                 </div>
-                <div className="mb-4">
+                <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">Last Name:</label>
                     <input type="text" value={lastname} name="lastname" onChange={e => {setLastname(e.target.value); updateFields()}} className="inputbox border-gray-400 focus:border-blue-700"/>
                 </div>
-                <div className="mb-4">
+                <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">Email address:</label>
                     <input type="email" value={email} name="email" onChange={e => {setEmail(e.target.value); updateFields()}} className="inputbox border-gray-400 focus:border-blue-700"/>
                 </div>
-                <div className="mb-4">
+                <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">Contact Number:</label>
                     <input type="number" value={phone} name="phone" onChange={e => {setPhone(e.target.value); updateFields()}} className="inputbox border-gray-400 focus:border-blue-700"/>
                 </div>
