@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuCard from "../../components/cards/MenuCard";
 import categories from '../../utils/menu/itemCategories';
 import sizes from '../../utils/menu/itemSizes';
@@ -15,17 +15,23 @@ const AdminMenu = () => {
         moreInfo: '',
         hot: false,
         recommended: false,
-        quantity: '',
         image: '',
+        quantity: '',
         portions: []
     })
     const [size, setSize] = useState('')
     const [price, setPrice] = useState(0.00)
     const [imageFile, setImageFile] = useState(null)
+    const [image, setImage] = useState('')
 
     const [error, setError] = useState(null)
     const [message, setMessage] = useState(null)
 
+    useEffect(() => {
+        if (error) setMessage(null)
+        else if (message) setError(null)
+    }, [error, message])
+    
     const handleReset = () => {
         setMenuItem({
             itemId: '',
@@ -40,9 +46,8 @@ const AdminMenu = () => {
         })
         setSize('')
         setPrice(0.00)
-        setError(null)
-        setMessage(null)
         setImageFile(null)
+        setImage('')
     }
 
     const handleChange = (e) => {
@@ -69,27 +74,25 @@ const AdminMenu = () => {
             return;
         }
         
-        setMenuItem(prevItem => ({...prevItem, image: URL.createObjectURL(file)}))
+        setImage(URL.createObjectURL(file))
         setImageFile(file)
     };
 
     const addSize = (e) => {
+        setError(null)
+        setMessage(null)
         // check if portion exists in size
         const exists = menuItem.portions.find(obj => obj.size === size)
-        console.log(exists, menuItem.portions, size)
         if (exists){
-            setMessage('')
             setError('This portion has already been added.')
             return;
         }
         const parsedPrice = parseFloat(price)
         if (isNaN(parsedPrice)) {
-            setMessage('')
             setError('Price must be a valid number.');
             return;
         }
         const newPortions = [...menuItem.portions, { "size": size, "price": parsedPrice.toFixed(2) }]
-        console.log(newPortions)
         setMenuItem(prevItem => ({...prevItem, portions: newPortions}))
     }
 
@@ -100,11 +103,10 @@ const AdminMenu = () => {
 
     const handleMessage = response => {
         setMessage(response.data.message)
-        setError('')
     }
     
     const handleError = error => {
-        setMessage('')
+        console.log(error)
         setError(error.response.data.error)
     }
 
@@ -118,7 +120,7 @@ const AdminMenu = () => {
         switch(name) {
             case "get":
                 getMenuItemApi(menuItem.itemId, user.token)
-                .then(response => setMenuItem({...response.data}))
+                .then((response) => {setMenuItem({...response.data}); handleMessage(response)})
                 .catch(handleError)
                 break
             case "add":
@@ -135,7 +137,7 @@ const AdminMenu = () => {
                 const confirmed = window.confirm('Are you sure you want to delete this item?');
                 if (confirmed) {
                     deleteMenuItemApi(menuItem.itemId, user.token)
-                    .then((response) => {handleMessage(response); handleReset()})
+                    .then(handleMessage)
                     .catch(handleError)
                 }
                 break;
@@ -193,7 +195,7 @@ const AdminMenu = () => {
             <div className="col-span-1 mb-4 w-full p-2">
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Image {"(<10MB)"} </label>
-                    <input type="file" onChange={handleFileUpload} className="cursor-pointer"/>
+                    <input type="file" onChange={handleFileUpload} className="cursor-pointer w-full"/>
                 </div>
                 <div className="flex justify-between mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Quantity</label>
@@ -242,7 +244,7 @@ const AdminMenu = () => {
             </div>
             <div className="h-full sticky top-20 z-50 w-64 md:w-56 lg:w-64 xs:col-span-2 md:col-span-1 mx-auto">
                 <span className="text-bold text-xl">Preview:</span>
-                <MenuCard menuItem={menuItem} />
+                <MenuCard menuItem={menuItem} image={image}/>
                 <div className="text-center my-4">
                     <label htmlFor="error" className="text-red-600 font-bold">
                         {error}

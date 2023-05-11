@@ -1,14 +1,16 @@
 const MenuItem = require('../models/MenuModel.js')
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const { Storage } = require("@google-cloud/storage");
 
 // Set storage engine for multer
-const storage = multer.diskStorage({
-  destination: './public/images',
-  filename: function (req, file, cb) {
-    cb(null, "Image" + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
+const storage = new Storage({
+    projectId: 'takeaway-website',
+    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+}) 
+
+const bucket = storage.bucket('item-images-bucket');
 
 // Check file type
 function checkFileType(file, cb) {
@@ -28,29 +30,36 @@ function checkFileType(file, cb) {
 
 // Initialize upload
 const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 },
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   }
-}).single('imageFile');
+}).single('image');
 
 const addMenuItem = async (req, res) => {
     // Use Multer middleware to handle file upload and parse form data
     upload(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
-        return res.status(400).json({ error: 'Failed to upload Image.' });
+            let message
+            switch (err.code){
+                case 'LIMIT_FILE_SIZE':
+                    message = "Image exceeds maximum file size limit (10MB)."
+                    break
+                case 'LIMIT_UNEXPECTED_FILE':
+                    message = "The image is missing or incorrect. Please try again."
+                    break
+            }
+            return res.status(400).json({ error: message });
         } else if (err) {
-        console.log(err);
-        return res.status(500).json({ error: 'An Unknown error occured.' });
+            console.log(err);
+            return res.status(500).json({ error: "Make sure the image ." });
     } try {
         const { formData } = req.body
         const data = JSON.parse(formData)
         const { itemId, name, category, portions, size, image, ...rest } = data;
-        console.log(data)
-        
         // Validate required fields
-        if (!itemId || isNaN(parseInt(itemId)) || !name || !category || !portions || portions.length == 0 || !image) {
+        if (!itemId || isNaN(parseInt(itemId)) || !name || !category || !portions || portions.length == 0) {
             return res.status(400).json({ error: 'Missing all required fields.' });
         }
         
@@ -66,12 +75,20 @@ const addMenuItem = async (req, res) => {
         }
         
         // Save the image file
-        const savedImage = req.file ? req.file.filename : null;
-        if (!savedImage) {
+        if (!req.file) {
             return res.status(400).json({ error: "Failed to save image."})
         }
-        const item = await MenuItem.create({ itemId, name, category, portions, image: savedImage, ...rest });
-        console.log(item);
+        const extension = req.file.originalname.split(".")[1]
+        const imageName = `${itemId}-${name}.${extension}`
+        const bucketFile = bucket.file(imageName)
+        const stream = bucketFile.createWriteStream();
+        stream.on('error', (err) => {
+            console.log(err)
+            return res.status(400).json({ error: 'Failed to save image.'})
+        })
+        stream.end(req.file.buffer)
+        console.log("Uploaded")
+        await MenuItem.create({ itemId, name, category, portions, image: imageName, ...rest });
         return res.status(200).json({ message: `Successfully added new menu item ${itemId}` });
     } catch (error) {
         console.log(error);
@@ -86,7 +103,7 @@ const getAllMenuItems = async (req, res) => {
         if (!items) {
             return res.status(400).json({error: "No Items have been added to the menu."})
         }
-        return res.status(200).json({ items })
+        return res.status(200).json( items )
     } catch (error) {
         console.log(error)
         return res.status(400).json({error: "Failed to get menu items."})
@@ -95,16 +112,14 @@ const getAllMenuItems = async (req, res) => {
 
 const getMenuItem = async (req, res) => {
     const { id } = req.params
-    console.log(id)
     try {
         const item = await MenuItem.findOne({itemId: id})
-        console.log(item)
         if (!item) {
             return res.status(400).json({error: `Cannot find Menu Item ${id}`})
         }
-        let { itemId, name, category, recommended, hot, moreInfo, quantity, portions } = item;
+        let { itemId, name, category, recommended, hot, moreInfo, quantity, portions, image } = item;
         if (!quantity) quantity = ""
-        return res.status(200).json({ itemId, name, category, recommended, hot, moreInfo, quantity, portions })
+        return res.status(200).json({ itemId, name, category, recommended, hot, moreInfo, quantity, portions, image })
     } catch (error) {
         console.log(error)
         return res.status(400).json({error: `Failed to get Menu Item ${id}`})
@@ -139,7 +154,6 @@ const updateMenuItem = async (req, res) => {
             ...rest
         })
         const newItem = await prevItem.save()
-        console.log(newItem)
         return res.status(200).json({message: `Successfully updated Menu item ${id}.`})
     } catch (error) {
         console.log(error)
@@ -155,6 +169,15 @@ const deleteMenuItem = async (req, res) => {
             return res.status(400).json({error: `Menu item ${id} not found.`})
         }
         await item.deleteOne()
+        const file = bucket.file(item.image)
+        file.delete()
+        .then(() => {
+            console.log("Successfully deleted image.")
+          })
+          .catch((err) => {
+            console.error(err);
+            return res.status(400).json({ message: 'Failed to delete image.'})
+          });
         return res.status(200).json({ message: `Menu Item ${id} successfully deleted.`})
     } catch (error) {
         console.log(error)

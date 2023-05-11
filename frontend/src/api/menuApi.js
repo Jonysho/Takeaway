@@ -20,7 +20,7 @@ const getMenuPdfApi = () => {
 const addMenuItemApi = (data, imageFile, token) => {
     const formData = new FormData();
     formData.append('formData', JSON.stringify(data))
-    formData.append('imageFile', imageFile);
+    formData.append('image', imageFile);
     return axios.post('/api/menu/add', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

@@ -48,18 +48,18 @@ backend: npm i express
 #### Menu display - Sprint 3
 - [ ] Admin users
     - [X] Implement isAdmin property for user accounts
-    - [ ] Add isAdmin function to authContext to protect pages (frontend)
+    - [X] Add isAdmin function to authContext to protect pages (frontend)
     - [X] Add requireAdminAuth middleware to protect admin Routes 
     - [ ] Create admin dashboard for functionalities:
         - [ ] get all users, delete users
-        - [ ] Create/Update/Delete menu items
-        - [ ] Upload of images for menu card
+        - [X] Create/Update/Delete menu items
+        - [X] Upload of images for menu card
 - [X] Menu Schema
 - [X] Menu controller functions
     - [X] Create, Read, Update, Delete
-- [ ] Create menu display cards
+- [X] Create menu display cards
 - [ ] Finish menu page
-    - [ ] Fetch all menu items and display all
+    - [X] Fetch all menu items and display all
     - [ ] Add filter section 
 
 #### Shopping Cart functionality
