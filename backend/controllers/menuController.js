@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { Storage } = require("@google-cloud/storage");
+const sharp = require("sharp");
 
 // Set storage engine for multer
 const storage = new Storage({
@@ -53,7 +54,7 @@ const addMenuItem = async (req, res) => {
             return res.status(400).json({ error: message });
         } else if (err) {
             console.log(err);
-            return res.status(500).json({ error: "Make sure the image ." });
+            return res.status(500).json({ error: "The image is missing or incorrect. Please try again." });
     } try {
         const { formData } = req.body
         const data = JSON.parse(formData)
@@ -74,10 +75,15 @@ const addMenuItem = async (req, res) => {
             return res.status(400).json({ error: 'Portions are inputted incorrectly.' });
         }
         
-        // Save the image file
+        // Check image file is created
         if (!req.file) {
-            return res.status(400).json({ error: "Failed to save image."})
+            return res.status(400).json({ error: "Failed to save image. Ensure an image is chosen."})
         }
+        // Resize and compress the image
+        const compressedImage = await sharp(req.file.buffer)
+        .resize({ width: 800 }) // Resize to 800px width (or any other desired width)
+        .jpeg({ quality: 80 }) // Compress to 80% JPEG quality (or any other desired quality)
+        .toBuffer();
         const extension = req.file.originalname.split(".")[1]
         const imageName = `${itemId}-${name}.${extension}`
         const bucketFile = bucket.file(imageName)
@@ -86,7 +92,7 @@ const addMenuItem = async (req, res) => {
             console.log(err)
             return res.status(400).json({ error: 'Failed to save image.'})
         })
-        stream.end(req.file.buffer)
+        stream.end(compressedImage)
         console.log("Uploaded")
         await MenuItem.create({ itemId, name, category, portions, image: imageName, ...rest });
         return res.status(200).json({ message: `Successfully added new menu item ${itemId}` });
@@ -128,7 +134,7 @@ const getMenuItem = async (req, res) => {
 
 const updateMenuItem = async (req, res) => {
     const { id } = req.params
-    const { itemId, name, category, portions, ...rest } = req.body
+    const { itemId, name, category, portions, image, ...rest } = req.body
     if (!itemId || !name || !category || !portions){
         return res.status(400).json({error: "Missing all required fields."})
     }
@@ -146,14 +152,14 @@ const updateMenuItem = async (req, res) => {
         return res.status(400).json({error: "Portions are inputted incorrectly."})
     }
     try {
-        prevItem.set({
-            itemId,
-            name,
-            category,
-            portions,
-            ...rest
-        })
-        const newItem = await prevItem.save()
+        const newItem = await MenuItem.updateOne( {itemId: id}, 
+            {$set: {
+                name,
+                category,
+                portions,
+                ...rest,
+            }}
+        )
         return res.status(200).json({message: `Successfully updated Menu item ${id}.`})
     } catch (error) {
         console.log(error)
@@ -170,14 +176,13 @@ const deleteMenuItem = async (req, res) => {
         }
         await item.deleteOne()
         const file = bucket.file(item.image)
-        file.delete()
-        .then(() => {
+        try {
+            await file.delete()
             console.log("Successfully deleted image.")
-          })
-          .catch((err) => {
+        } catch (error) {
             console.error(err);
             return res.status(400).json({ message: 'Failed to delete image.'})
-          });
+        }
         return res.status(200).json({ message: `Menu Item ${id} successfully deleted.`})
     } catch (error) {
         console.log(error)

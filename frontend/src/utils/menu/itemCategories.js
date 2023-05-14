@@ -18,4 +18,23 @@ const categories = [
     "Vegetable Dishes",
 ]
 
-export default categories;
+const mainCategories = [
+    {
+        title: "Meat Dishes",
+        path: "meat"
+    },
+    {
+        title: "Vegetarian Dishes",
+        path: "vegetarian"
+    },
+    {
+        title: "Rice and Noodles",
+        path: "rice&noodles"
+    },
+    {
+        title: "Appetizers and Sides",
+        path: "appetizers&sides"
+    },
+]
+
+export {categories, mainCategories};

@@ -38,7 +38,7 @@ const MenuCard = ({menuItem, image}) => {
             
 
             <div className="px-6 py-4 flex flex-col">
-                <span className="text-lg font-semibold">{menuItem.name ? menuItem.name : "Item Name"}</span>
+                <span className="text-lg font-semibold">{menuItem.name ? `${menuItem.itemId}. ${menuItem.name}` : "Item Name"}</span>
                 <div className="my-4 mx-1 rounded-lg relative border-2 border-gray-300 hover:text-red-500 hover:border-red-500 flex justify-end items-center">
                     <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} 
                     className="rounded-lg border-0 w-full appearance-none text-black focus:outline-none p-3 cursor-pointer">

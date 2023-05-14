@@ -7,6 +7,10 @@
     @apply text-amber-700
 } */
 
+html {
+    scroll-behavior: smooth;
+}
+
 .active > span {
     @apply text-red-900
 }

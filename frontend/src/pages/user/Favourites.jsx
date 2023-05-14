@@ -18,7 +18,7 @@ const Favourites = () => {
             }
             {recents ? <CardLayout cards={recents} /> : 
             <div>
-                <span className="">
+                <span>
                     <h1 className="redline flex justify-center items-center font-bold text-2xl sm:text-3xl lg:text-4xl lg:mx-4 text-center text-green-600 drop-shadow-sm p-6 line">Recent Orders</h1>
                 </span>
                 <p className="pb-2 font-bold">There are currently no recent orders.</p>

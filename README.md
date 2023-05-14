@@ -58,9 +58,9 @@ backend: npm i express
 - [X] Menu controller functions
     - [X] Create, Read, Update, Delete
 - [X] Create menu display cards
-- [ ] Finish menu page
+- [X] Finish menu page
     - [X] Fetch all menu items and display all
-    - [ ] Add filter section 
+    - [X] Add filter section 
 
 #### Shopping Cart functionality
 - [ ] Add Cart array for User documents
