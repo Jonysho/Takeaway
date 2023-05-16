@@ -46,12 +46,12 @@ backend: npm i express
     - [ ] Facebook (to do later)
 
 #### Menu display - Sprint 3
-- [ ] Admin users
+- [X] Admin users
     - [X] Implement isAdmin property for user accounts
     - [X] Add isAdmin function to authContext to protect pages (frontend)
     - [X] Add requireAdminAuth middleware to protect admin Routes 
-    - [ ] Create admin dashboard for functionalities:
-        - [ ] get all users, delete users
+    - [X] Create admin dashboard for functionalities:
+        - [X] get all users, delete users
         - [X] Create/Update/Delete menu items
         - [X] Upload of images for menu card
 - [X] Menu Schema

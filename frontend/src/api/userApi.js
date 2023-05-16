@@ -35,4 +35,23 @@ const updateDetailsAPI = (id, token, details) => {
     })
 }
 
-export { getDetailsAPI, resendEmailAPI, changePasswordAPI, updateDetailsAPI }
+const getAllUsersAPI = (token) => {
+    return axios.get('/api/user/all', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+const deleteUserAPI = (id, token) => {
+    return axios.delete(`/api/user/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    
+}
+
+export { getDetailsAPI, resendEmailAPI, changePasswordAPI, updateDetailsAPI, getAllUsersAPI,deleteUserAPI }

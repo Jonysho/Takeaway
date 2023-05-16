@@ -81,6 +81,10 @@ const AdminMenu = () => {
 
     const addSize = (e) => {
         updateMessage(null, null)
+        if (!size){
+            setError('Please select a portion size.')
+            return;
+        }
         // check if portion exists in size
         const exists = menuItem.portions.find(obj => obj.size === size)
         if (exists){

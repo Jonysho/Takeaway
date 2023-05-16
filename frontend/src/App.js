@@ -44,9 +44,9 @@ const App = () => {
         <main className="h-full flex flex-col">
         {!isWithSideNav() ? 
           (
-            <div> {otherContent} </div>
+            <div className="min-h-[100vh]"> {otherContent} </div>
           ) : <div className="px-4 py-6 flex-1">
-              <div className="flex">
+              <div className="flex min-h-[100vh]">
                 {user && <SideNav navItems={isAdminLocation() ? adminNavItems : navItems}/>}
                 <div className="p-4 w-full">
                   <ContentTitle location={location} navItems={isAdminLocation() ? adminNavItems : navItems}/>
