@@ -4,7 +4,6 @@ import Error404 from "../pages/all/Error404";
 import Home from "../pages/all/Home";
 import Login from "../pages/all/Login";
 import Register from "../pages/all/Register";
-import Checkout from "../pages/user/Checkout";
 import Favourites from "../pages/user/Favourites";
 import MyDetails from "../pages/user/MyDetails";
 import Security from "../pages/user/Security";
@@ -17,6 +16,9 @@ import AdminIncome from "../pages/admin/AdminIncome";
 import AdminMenu from "../pages/admin/AdminMenu";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminAuthRoute from "../components/auth/AdminAuthRoute";
+import CheckoutDetails from "../pages/user/checkout/CheckoutDetails";
+import Summary from "../pages/user/checkout/Summary";
+import Confirmation from "../pages/user/checkout/Confirmation";
 
 const withNavRoutes = [
     {
@@ -79,8 +81,16 @@ const withoutNavRoutes = [
         element: <AuthRoute element={<MyOrders />}/>
     },
     {
-        path: '/checkout',
-        element: <AuthRoute element={<Checkout />}/>
+        path: '/checkout/summary',
+        element: <AuthRoute element={<Summary />}/>
+    },
+    {
+        path: '/checkout/details',
+        element: <AuthRoute element={<CheckoutDetails />}/>
+    },
+    {
+        path: '/checkout/confirmation',
+        element: <AuthRoute element={<Confirmation />}/>
     },
     {
         path: '/user/:id/verify/:token',

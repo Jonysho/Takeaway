@@ -63,9 +63,9 @@ backend: npm i express
     - [X] Add filter section 
 
 #### Shopping Cart functionality
-- [ ] Add Cart array for User documents
-- [ ] Create/Read/Update Cart array (using Menu Item IDs)
-- [ ] Calculate price using IDs and Menu Prices
+- [X] Add Cart Model
+- [X] Create/Read/Update/Clear Cart array (using Menu Item IDs)
+- [X] Calculate price using IDs and Menu Prices
 - [ ] Update (Read) price on frontend
 - [ ] Cart dropdown
 

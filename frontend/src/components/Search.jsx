@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 
-const Search = ({handleSearch, handleSort, resetUsers}) => {
+const Search = ({handleSearch, resetUsers}) => {
     const [search, setSearch] = useState('firstname')
     const [input, setInput] = useState('')
     
     useEffect(() => {
-        console.log("?")
         resetUsers()
         handleSearch(search, input)
     }, [input, search])

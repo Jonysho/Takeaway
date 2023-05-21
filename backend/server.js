@@ -5,6 +5,7 @@ const { db } = require('./db/db')
 const userRoutes = require('./routes/user');
 const authRoutes = require("./routes/auth");
 const menuRoutes = require("./routes/menu");
+const cartRoutes = require("./routes/cart");
 
 const app = express();
 const PORT = process.env.PORT
@@ -26,6 +27,8 @@ app.use('/api/user', userRoutes);
 app.use("/api/auth", authRoutes)
 
 app.use("/api/menu", menuRoutes)
+
+app.use("/api/cart", cartRoutes)
 
 // Google Maps API 
 app.get('/api/map', (req, res) => {

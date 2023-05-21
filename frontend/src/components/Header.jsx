@@ -48,7 +48,7 @@ const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
           </nav>
           <NavLink to="/" className='p-1 font-bold text-xl sm:text-3xl lg:text-5xl items-center m-auto'><h1>Ho's Kitchen</h1></NavLink>
             <div className='border-l-2 px-3 border-gray-500/50 sm:p-3 sm:px-8 lg:hidden'>
-            <NavLink to="/checkout">
+            <NavLink to="/checkout/summary">
               <div className='items-center flex sm:justify-around'>
                   <div className='w-full'><BsFillBasket3Fill size={26}/></div>
                   <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}.00</div>
@@ -91,7 +91,7 @@ const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
             {user && user.isAdmin && <NavLink to="/admin/dashboard"><span className='text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>Admin</span></NavLink>}
           </div>
           <div className='hidden lg:flex mr-[5%] w-64 h-12 bg-green-500 text-white rounded-3xl hover:bg-green-700 focus:outline-none focus:bg-green-700 shadow-sm'>
-            <NavLink to="/checkout" className="flex items-center justify-between w-full px-4">
+            <NavLink to="/checkout/summary" className="flex items-center justify-between w-full px-4">
                   <p><BsFillBasket3Fill size={25}/></p>
                   <p className='text-lg font-semibold'> Basket </p>
                   <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> ${total}.00 </p>
