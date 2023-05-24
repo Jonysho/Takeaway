@@ -1,5 +1,8 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { checkAdminTokenAPI, checkUserTokenAPI } from '../api/authApi';
+import { useCartContext } from '../customHooks/useCartContext';
+import { getCartApi } from '../api/cartApi';
+import { CartContext } from './CartContext';
 
 export const AuthContext = createContext();
 

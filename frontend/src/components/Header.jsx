@@ -10,11 +10,13 @@ import Info from './Info';
 import { useClickOutside } from '../customHooks/useClickOutside';
 import { useAuthContext } from '../customHooks/useAuthContext';
 import { useDetails } from '../customHooks/useDetails';
+import { useCartContext } from '../customHooks/useCartContext';
 
-const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
+const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
   const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
   const { user } = useAuthContext()
+  const { total } = useCartContext()
   const {userInfo, getDetails} = useDetails()
 
   const resetNavs = () => {
@@ -51,7 +53,7 @@ const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
             <NavLink to="/checkout/summary">
               <div className='items-center flex sm:justify-around'>
                   <div className='w-full'><BsFillBasket3Fill size={26}/></div>
-                  <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}.00</div>
+                  <div className='hidden w-full sm:flex lg:hidden items-center pl-2'>£{total}</div>
               </div>
             </NavLink>
             </div>
@@ -94,7 +96,7 @@ const Header = ({total, location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
             <NavLink to="/checkout/summary" className="flex items-center justify-between w-full px-4">
                   <p><BsFillBasket3Fill size={25}/></p>
                   <p className='text-lg font-semibold'> Basket </p>
-                  <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> ${total}.00 </p>
+                  <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> ${total} </p>
             </NavLink>
           </div>
         </nav>

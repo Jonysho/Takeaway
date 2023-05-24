@@ -66,8 +66,9 @@ backend: npm i express
 - [X] Add Cart Model
 - [X] Create/Read/Update/Clear Cart array (using Menu Item IDs)
 - [X] Calculate price using IDs and Menu Prices
-- [ ] Update (Read) price on frontend
-- [ ] Cart dropdown
+- [X] Update (Read) price on frontend
+- [ ] Design Checkout pages
+    - [X] Show Cart items in checkout
 
 #### To do later:
 #### Online Ordering System

@@ -1,22 +1,33 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { useState } from "react";
-import { useActionData, useLocation, useRoutes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useRoutes } from "react-router-dom";
 import {withNavRoutes,  withoutNavRoutes} from './utils/navRoutes';
 import SideNav from "./components/navigation/SideNav";
 import { navItems } from "./utils/navItems";
 import ContentTitle from "./components/ContentTitle";
 import { adminNavItems } from "./utils/adminNavItems";
 import { useAuthContext } from "./customHooks/useAuthContext";
-import Navbar from "./components/navigation/Navbar";
+import { useCartContext } from "./customHooks/useCartContext";
+import { getCartApi } from "./api/cartApi";
 
 const App = () => {
-  const [total, setTotal] = useState(0)
   const [isShopOpen, setIsShopOpen] = useState(false)
   const location = useLocation();
   const { user } = useAuthContext()
   const [isNavMBOpen, setIsNavMBOpen] = useState(false); // mobile nav
-  
+
+  const {cart, dispatch} = useCartContext()
+
+  useEffect(() => {
+    if (user) {
+      getCartApi(user.id, user.token)
+        .then(response => {
+          dispatch({type: "SET_CART", payload: response.data.cart})
+        })
+    }
+  },[user])
+
   // Check if page needs rendering with or without side nav
   const isWithSideNav = () => {
     let withNav = false;
@@ -32,14 +43,14 @@ const App = () => {
     return location.pathname.startsWith("/admin")
   }
 
-  const navContent = useRoutes(withNavRoutes)
   const otherContent = useRoutes(withoutNavRoutes)
+  const navContent = useRoutes(withNavRoutes)
 
   return (
     <div className={`bg-gray-50 absolute top-0 left-0 h-full w-full ${isNavMBOpen ? 'overflow-hidden' : 'overflow-auto'}`}>
       <div className="flex flex-col">
         <div className='sticky top-[-3rem] sm:top-[-4.5rem] lg:top-[-8.6rem] z-[800]'>
-          <Header total={total} location={location} isShopOpen={isShopOpen} isNavMBOpen={isNavMBOpen} setIsNavMBOpen={setIsNavMBOpen}/>
+          <Header location={location} isShopOpen={isShopOpen} isNavMBOpen={isNavMBOpen} setIsNavMBOpen={setIsNavMBOpen}/>
         </div>
         <main className="h-full flex flex-col">
         {!isWithSideNav() ? 

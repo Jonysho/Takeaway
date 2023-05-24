@@ -9,9 +9,9 @@ const getCartApi = (id, token) => {
     });
 };
 
-const addToCartApi = (id, itemId, portions, token) => {
-    return axios.get('/api/cart/add', {
-        id, itemId, portions
+const addToCartApi = (id, itemId, size, token) => {
+    return axios.post('/api/cart/add', {
+        id, itemId, size
         },
         { headers: {
             'Content-Type': 'application/json',
@@ -20,8 +20,19 @@ const addToCartApi = (id, itemId, portions, token) => {
     })
 }
 
-const clearCart = (id, token) => {
-    return axios.get('/api/cart/add', {id}, {
+const removeFromCartApi = (id, itemId, size, token) => {
+    return axios.patch('/api/cart/remove', {
+        id, itemId, size
+        },
+        { headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+const clearCartApi = (id, token) => {
+    return axios.patch('/api/cart/add', {id}, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -29,4 +40,4 @@ const clearCart = (id, token) => {
     })
 }
 
-export { getCartApi, addToCartApi, clearCart }
+export { getCartApi, addToCartApi, clearCartApi, removeFromCartApi }

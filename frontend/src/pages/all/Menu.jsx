@@ -20,7 +20,6 @@ const Menu = () => {
                 groupedMenuItems[category].sort((a, b) => a.itemId - b.itemId);
             });
             setMenuItems(groupedMenuItems)
-            console.log(groupedMenuItems)
         })
         .catch(error => {
             console.log(error)

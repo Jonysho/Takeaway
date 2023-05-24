@@ -57,6 +57,10 @@ const withNavRoutes = [
         path: "/admin/users",
         element: <AdminAuthRoute element={<AdminUsers/>}/>
     },
+    {
+        path: '*',
+        element: <Error404/>
+    },
 ]
 
 const withoutNavRoutes = [

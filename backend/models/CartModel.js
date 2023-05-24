@@ -13,6 +13,9 @@ const cartSchema = new mongoose.Schema({
         ref: 'menuitems',
         required: true
       },
+      name: {
+        type: String,
+      },
       portions: [
         {
           size: {
@@ -24,6 +27,9 @@ const cartSchema = new mongoose.Schema({
             required: true,
             default: 0
           },
+          price: {
+            type: Number,
+          }
         }
       ],
       amount: {
