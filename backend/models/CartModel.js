@@ -15,6 +15,11 @@ const cartSchema = new mongoose.Schema({
       },
       name: {
         type: String,
+        ref: 'menuitems',
+      },
+      image: {
+        type: String,
+        ref: 'menuitems',
       },
       portions: [
         {
@@ -38,6 +43,14 @@ const cartSchema = new mongoose.Schema({
       }
     }
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 3600,
+    index: true,
+  }
 });
+
+cartSchema.index({ createdAt: 1 }, { expireAfterSeconds: 3600 })
 
 module.exports = mongoose.model('Cart', cartSchema);

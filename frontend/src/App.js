@@ -9,7 +9,7 @@ import ContentTitle from "./components/ContentTitle";
 import { adminNavItems } from "./utils/adminNavItems";
 import { useAuthContext } from "./customHooks/useAuthContext";
 import { useCartContext } from "./customHooks/useCartContext";
-import { getCartApi } from "./api/cartApi";
+import { clearCartApi, getCartApi } from "./api/cartApi";
 
 const App = () => {
   const [isShopOpen, setIsShopOpen] = useState(false)
@@ -21,10 +21,21 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      getCartApi(user.id, user.token)
-        .then(response => {
-          dispatch({type: "SET_CART", payload: response.data.cart})
-        })
+      const fetchCart = async () => {
+        try {
+          const response = await getCartApi(user.id, user.token)
+          let { cart } = response.data
+          if (!cart) cart = []
+          dispatch({type: "SET_CART", payload: cart})
+        } catch (error) {
+          console.log(error)
+        }}
+      fetchCart()
+      
+      const intervalId = setInterval(fetchCart, 1000 * 60 * 5);
+      return () => {
+        clearInterval(intervalId)
+      }
     }
   },[user])
 

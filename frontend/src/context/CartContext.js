@@ -7,7 +7,6 @@ export const cartReducer = (state, action) => {
     case 'SET_CART':
       const cart = action.payload
       let total = 0;
-      console.log(cart)
       cart.map((item) => {
         total += item.amount
       })

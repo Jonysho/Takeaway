@@ -17,7 +17,7 @@ const addToCart = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ error: "User ID invalid." });
     }
-  
+    
     try {
         const existingUser = await User.findOne({ _id: userId })
         if (!existingUser) {
@@ -48,7 +48,8 @@ const addToCart = async (req, res) => {
             } else {
                 existingOrder.portions.push({
                     size: size,
-                    quantity: 1
+                    quantity: 1,
+                    price: price
                 })
             }
             existingOrder.amount += price;
@@ -58,14 +59,17 @@ const addToCart = async (req, res) => {
                 _id: menuItem._id,
                 itemId: itemId,
                 name: menuItem.name,
+                image: menuItem.image,
                 portions: [{
                     size: size,
                     quantity: 1,
+                    price: price,
                 }],
                 amount: price,
             };
             cart.cartDetails.push(orderDetails);
         }
+        cart.createdAt = new Date();
         await cart.save();
   
         return res.status(200).json({ message: "Item added to cart successfully.", cart: cart.cartDetails });
@@ -100,18 +104,18 @@ const removeFromCart = async (req, res) => {
         if (!cart) {
             cart = new Cart({ userId, cartDetails: [] });
         }
-    
+        
         const menuItem = await MenuItem.findOne({ itemId });
-
+        
         const portion = menuItem.portions.find(obj => obj.size === size)
         const price = portion.price
-    
+        
         if (!menuItem) {
             return res.status(400).json({ error: "Menu Item does not exist." });
         }
-
+        
         const index = cart.cartDetails.findIndex((order) => order.itemId === itemId);
-        const existingOrder = cart.carDetails[index]
+        const existingOrder = cart.cartDetails[index]
         if (existingOrder) {
             // Update existing order
             let isUpdated = false
@@ -143,7 +147,7 @@ const removeFromCart = async (req, res) => {
         return res.status(200).json({ message: "Item removed cart successfully.", cart: cart.cartDetails });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: "Failed to add item to cart." });
+        return res.status(500).json({ error: "Failed to remove item from cart." });
     }
 };
 
