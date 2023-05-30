@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import CheckoutStages from "../../../components/CheckoutStages";
 import { useCartContext } from "../../../customHooks/useCartContext";
 import { useAuthContext } from "../../../customHooks/useAuthContext";
-import { AiFillHeart, AiFillShop } from "react-icons/ai";
+import { AiFillShop } from "react-icons/ai";
 import {RiAddFill, RiSubtractFill}  from 'react-icons/ri';
-import { addToCartApi, removeFromCartApi } from "../../../api/cartApi";
+import { addToCartApi, clearCartApi, removeFromCartApi, saveFavouriteApi } from "../../../api/cartApi";
 
 const Summary = () => {
     const { cart, total, dispatch } = useCartContext()
     const {user} = useAuthContext()
     const [estimatedTime, setEstimatedTime] = useState(25)
     const [count, setCount] = useState(0)
+    const [favName, setFavName] = useState('')
+    const [error, setError] = useState('')
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
         let temp = 0
@@ -40,11 +43,30 @@ const Summary = () => {
             dispatch({type: "SET_CART", payload: cart})
         } catch (error) {
             console.log(error)
-        }   
+        }
+    }
+    
+    const handleClear = async () => {
+        try {
+            await clearCartApi(user.id, user.token)   
+            dispatch({type: "CLEAR_CART"})
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-    const handleFavourite = () => {
-
+    const handleFavourite = async () => {   
+        try {
+            const response = await saveFavouriteApi(user.id, user.token, favName)
+            if (response) {
+                setError('')
+                setMessage(response.data.message)
+            }
+        } catch (error) {
+            console.log(error)
+            setMessage('')
+            setError(error.response.data.error)
+        }
     }
 
     const handleCheckout = () => {
@@ -107,12 +129,25 @@ const Summary = () => {
                             <div className="bg-gray-200 flex flex-col justify-between p-4 items-center mb-4 text-center">
                                 <h1 className="font-bold text-3xl text-green-600 drop-shadow-sm mb-1">Add to Favourite Basket</h1>
                                 <p className="mb-4">You can save your basket for a faster checkout next time</p>
-                                <button className="rounded-full p-2 px-3 bg-red-500 w-fit flex justify-center text-white shadow-sm hover:bg-red-600 font-semibold"
-                                    onClick={handleFavourite}>
-                                    Save Basket
-                                </button>
+                                <div className="flex flex-col sm:flex-row justify-center items-center">
+                                    <input type="text" placeholder="Name" className="rounded-lg shadow-md p-1 focus:outline-none text-sm lg:text-base border mb-2 sm:mr-2 sm:mb-0"
+                                        value={favName} onChange={(e) => setFavName(e.target.value)}
+                                    />
+                                    <button className="rounded-full p-2 px-3 bg-blue-500 w-fit flex justify-center text-white shadow-sm hover:bg-blue-600 font-semibold"
+                                        onClick={handleFavourite}>
+                                        Save Basket
+                                    </button>
+                                </div>
+                                <div className="mt-2">
+                                    <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
+                                    <label htmlFor="message" className="text-green-600 font-bold">{message}</label>
+                                </div>
                             </div>
-                            <div className="flex justify-end">
+                            <div className="flex justify-center sm:justify-end">
+                                <button className="rounded-full p-2 px-3 mr-4 bg-red-600 w-fit flex justify-center text-white shadow-sm hover:bg-red-700 font-semibold"
+                                    onClick={handleClear}>
+                                    Clear Cart
+                                </button>
                                 <button className="rounded-full p-2 px-3 bg-green-600 w-fit flex justify-center text-white shadow-sm hover:bg-green-700 font-semibold"
                                     onClick={handleCheckout}>
                                     Checkout Now

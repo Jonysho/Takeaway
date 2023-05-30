@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator')
 const jwt = require('jsonwebtoken');
+const { cartSchema } = require("./CartModel")
 
 const UserSchema = new mongoose.Schema({
     firstname: {
@@ -38,10 +39,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    favourites: {
-        type: [Number],
-        default: [],
-    },
+    favourites: [{
+        name: {
+            type: String
+        },
+        cart: [{
+            type: mongoose.Schema.Types.Mixed,
+            ref: 'Cart'
+        }]
+    }],
     recents: {
         type: [Number],
         default: [],

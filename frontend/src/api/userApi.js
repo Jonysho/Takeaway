@@ -50,8 +50,26 @@ const deleteUserAPI = (id, token) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
-    })
-    
+    })   
 }
 
-export { getDetailsAPI, resendEmailAPI, changePasswordAPI, updateDetailsAPI, getAllUsersAPI,deleteUserAPI }
+const getUserFavouritesApi = (id, token) => {
+    return axios.get(`/api/user/favourites/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+const deleteFavouriteApi = (id, cartId, token) => {
+    return axios.patch(`/api/user/favourites/delete`, {id, cartId}, { 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+
+export { getDetailsAPI, resendEmailAPI, changePasswordAPI, updateDetailsAPI, getAllUsersAPI,deleteUserAPI, getUserFavouritesApi, deleteFavouriteApi }

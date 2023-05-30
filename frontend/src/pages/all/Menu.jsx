@@ -52,7 +52,7 @@ const Menu = () => {
                     <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 my-3 mx-auto">
                     {menuItems[title] ? menuItems[title].map((item) => (
                         <li key={item.itemId}>
-                            <MenuCard menuItem={item}/>
+                            <MenuCard menuItem={item} isMenu={true}/>
                         </li>
                         )) : <p className="mx-auto col-span-5"> No Items avaliable. </p>
                     }

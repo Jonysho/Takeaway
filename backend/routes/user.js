@@ -7,7 +7,9 @@ const {
     verifyEmail, 
     resendEmail,
     getAllUsers,
-    deleteUser
+    deleteUser,
+    getUserFavourites,
+    deleteFavourite
  } = require('../controllers/userController');
 const requireAuth = require('../middleware/requireAuth');
 const requireAdminAuth = require('../middleware/requireAdminAuth');
@@ -22,8 +24,10 @@ router.delete('/:id', requireAdminAuth, deleteUser)
 
 // Protected User Routes 
 router.get('/:id', requireAuth, getUserDetails)
-router.patch('/change-password/:id', requireAuth, changePassword)
 router.patch('/update-details/:id', requireAuth, updateDetails)
+router.get('/favourites/:id', requireAuth, getUserFavourites)
+router.patch('/favourites/delete', requireAuth, deleteFavourite)
+router.patch('/change-password/:id', requireAuth, changePassword)
 
 
 module.exports = router

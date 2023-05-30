@@ -184,7 +184,9 @@ const getCart = async (req, res) => {
     try {
         let cart = await Cart.findOne({userId})
         if (cart === null){
-            cart = []
+            cart = {
+                cartDetails: []
+            }
         }
         return res.status(200).json({ message: "Sucessfully retrieved cart.", cart: cart.cartDetails})
     } catch (error) {
@@ -193,4 +195,66 @@ const getCart = async (req, res) => {
     }
 }
 
-module.exports = { addToCart, getCart, clearCart, removeFromCart }
+const favouriteCart = async (req, res) => {
+    const { userId, favName } = req.body
+    try {
+        const user = await User.findOne({ _id: userId })
+        if (!user) {
+            return res.status(400).json({ error: "User does not exist."})
+        }
+
+        let cart = await Cart.findOne({ userId });
+        if (!cart) {
+            return res.status(400).json({ error: 'Cart cannot be found.'})
+        }
+        if (cart.cartDetails.length === 0) {
+            return res.status(400).json({error: 'Cart cannot be empty.'})
+        }
+        const newFavourite = {
+            name: favName,
+            cart: cart.cartDetails
+        }
+        if (!user.favourites) {
+            user.favourites = []
+        }
+        user.favourites.push(newFavourite);
+        await user.save()
+        return res.status(200).json({ message: 'Cart successfully saved in favourites.', favourites: user.favourites})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({error: 'Failed to save cart in favourites.'})
+    }
+}
+
+const loadFavourite = async (req, res) => {
+    const { userId, favCartId } = req.body
+    try {
+        const user = await User.findOne({ _id: userId })
+        if (!user) {
+            return res.status(400).json({ error: "User does not exist."})
+        }
+        let favCart;
+        user.favourites.map(cart => {
+            if (cart._id.toString() === favCartId){
+                favCart = cart
+            }
+        })
+        if (!favCart) {
+            return res.status(400).json({error: "Favourite cart does not exist."})
+        }
+        let cart = await Cart.findOne({ userId });
+        
+        if (!cart) {
+            cart = new Cart({ userId, cartDetails: [] });
+        }
+        cart.cartDetails = favCart.cart
+        cart.createdAt = new Date();
+        await cart.save();
+        return res.status(200).json({ message: "Favourite loaded successful into cart.", cart: cart.cartDetails})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({error: 'Failed to load favourites into cart.'})
+    }
+}
+
+module.exports = { addToCart, getCart, clearCart, removeFromCart, favouriteCart, loadFavourite }

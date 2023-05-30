@@ -3,6 +3,7 @@ const Token = require('../models/TokenModel.js')
 const axios = require('axios');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail.js');
+const { default: mongoose } = require('mongoose');
 
 /* --------------- User Email verification --------------- */
 const createEmailToken = async (email, userId) => {
@@ -169,6 +170,49 @@ const updateDetails = async (req, res) => {
     }
 }
 
+const getUserFavourites = async (req, res) => {
+    const id = req.params.id
+    if (!id) {
+        return res.status(400).json({ error: "User ID is required."})
+    }
+    try {
+        const user = await User.findOne({_id: id})
+        if (!user) {
+            return res.status(400).json({error: "User does not exist."})
+        }
+        return res.status(200).json({ favourites: user.favourites})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({error: "Failed to fetch User favourites."})
+    }
+}
+
+const deleteFavourite = async (req, res) => {
+    const { id, cartId } = req.body
+    if (!id || !cartId ) {
+        return res.status(400).json({ error: "User and Cart ID is required."})
+    }
+    try {
+        const user = await User.findOne({_id: id})
+        if (!user) {
+            return res.status(400).json({error: "User does not exist."})
+        }
+        const cart = user.favourites.some(cart => cart._id.toString() === cartId);
+        if (!cart) {
+            return res.status(400).json({error: "Cart does not exist."})
+        }
+        const newUser = await User.findOneAndUpdate(
+            { _id: id },
+            { $pull: { favourites: { _id: mongoose.Types.ObjectId.createFromHexString(cartId) } } },
+            { new: true }
+        )
+        return res.status(200).json({ message: "Sucessfully removed cart from favourites", favourites: newUser.favourites})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({error: "Failed to remove cart from favourites."})
+    }
+}
+
 const changePassword = async (req, res) => {
     const { id } = req.params
     const {password, newPassword, confirmPassword} = req.body
@@ -204,6 +248,6 @@ const deleteUser = async (req, res) => {
 module.exports = {
     verifyEmail, resendEmail, // emails
     googleLogin, login, register, // auth
-    getUserDetails, updateDetails, changePassword, // user
+    getUserDetails, updateDetails, changePassword, getUserFavourites, deleteFavourite, // user
     getAllUsers, deleteUser // admin
 }

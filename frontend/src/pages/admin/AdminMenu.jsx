@@ -69,7 +69,6 @@ const AdminMenu = () => {
         if (!file) {
             return;
         }
-        console.log(file.size)
         if (file.size > MAX_FILE_SIZE) {
             alert(`File size must be less than ${MAX_FILE_SIZE} bytes.`);
             return;
@@ -121,7 +120,6 @@ const AdminMenu = () => {
             updateMessage('Item ID is required.', null)
             return false
         }
-        console.log(menuItem)
         switch(name) {
             case "get":
                 getMenuItemApi(menuItem.itemId, user.token)

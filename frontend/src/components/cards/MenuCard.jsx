@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import {TbChefHat} from 'react-icons/tb';
 import {GiChiliPepper} from 'react-icons/gi';
@@ -7,16 +7,24 @@ import { useCartContext } from "../../customHooks/useCartContext";
 import { addToCartApi } from "../../api/cartApi";
 import { useAuthContext } from "../../customHooks/useAuthContext";
 
-const MenuCard = ({menuItem, image}) => {
-    const [selectedOption, setSelectedOption] = useState(menuItem.portions[0].size)
+const MenuCard = ({menuItem, image, isMenu}) => {
+    const [selectedOption, setSelectedOption] = useState('')
     const [moreInfo, setMoreInfo] = useState(false)
     const { dispatch } = useCartContext()
     const { user } = useAuthContext()
 
     const handleAdd = async () => {
-        console.log(selectedOption)
+        if (!isMenu) {
+            console.log("Add to cart")
+            return;
+        }
+        let size = selectedOption;
+        if (!size) {
+            size = menuItem.portions[0].size
+            setSelectedOption(size)
+        }
         try {
-            const response = await addToCartApi(user.id, menuItem.itemId, selectedOption, user.token)
+            const response = await addToCartApi(user.id, menuItem.itemId, size, user.token)
             dispatch({type: "SET_CART", payload: response.data.cart})
         } catch (error) {
             console.log(error)

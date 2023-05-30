@@ -15,9 +15,10 @@ export const cartReducer = (state, action) => {
         total: total.toFixed(2)
       };
     case 'CLEAR_CART':
+      let newTotal = 0
       return {
         cart: [],
-        total: 0.00,
+        total: newTotal.toFixed(2),
       };
     default:
       return state;

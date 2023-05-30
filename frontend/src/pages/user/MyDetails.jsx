@@ -63,7 +63,7 @@ const MyDetails = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="error" className="text-red-600 font-bold">{error}</label>
-                    <label htmlFor="error" className="text-green-600 font-bold">{message}</label>
+                    <label htmlFor="message" className="text-green-600 font-bold">{message}</label>
                 </div>
                 <button type="submit" disabled={isLoading} onClick={e => handleUpdate(e)} className='submitBtn'>Update</button>
             </form>
