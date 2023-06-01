@@ -19,6 +19,7 @@ import AdminAuthRoute from "../components/auth/AdminAuthRoute";
 import CheckoutDetails from "../pages/user/checkout/CheckoutDetails";
 import Summary from "../pages/user/checkout/Summary";
 import Confirmation from "../pages/user/checkout/Confirmation";
+import CheckoutRoute from "../components/auth/CheckoutRoute";
 
 const withNavRoutes = [
     {
@@ -90,11 +91,11 @@ const withoutNavRoutes = [
     },
     {
         path: '/checkout/details',
-        element: <AuthRoute element={<CheckoutDetails />}/>
+        element: <CheckoutRoute element={<CheckoutDetails />}/>
     },
     {
         path: '/checkout/confirmation',
-        element: <AuthRoute element={<Confirmation />}/>
+        element: <CheckoutRoute element={<Confirmation />}/>
     },
     {
         path: '/user/:id/verify/:token',

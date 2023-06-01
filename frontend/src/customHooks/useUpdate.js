@@ -6,7 +6,7 @@ export const useUpdate = () => {
     const [message, setMessage] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
 
-    const updateDetails = async (id, token, details) => {       
+    const updateDetails = async (id, token, details) => { 
         setIsLoading(true)
         setError(null)
 

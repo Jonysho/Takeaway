@@ -152,9 +152,9 @@ UserSchema.statics.changePassword = async function(userId, password, newPassword
     return user
 }
 
-UserSchema.statics.updateDetails = async function(userId, firstname, lastname, email, phone) {
+UserSchema.statics.updateDetails = async function(userId, firstname, lastname, phone) {
     // Validation
-    if (!userId || !firstname || !lastname || !email || !phone){
+    if (!userId || !firstname || !lastname || !phone){
         throw Error('All fields are required.')
     }
 
@@ -163,18 +163,6 @@ UserSchema.statics.updateDetails = async function(userId, firstname, lastname, e
 
     if (!user) {
         throw Error('User does not exist.')
-    }
-    
-    // Validate Email & Password
-    if (!validator.isEmail(email)){
-        throw Error('Email is invalid.')
-    }
-    
-    if (email !== user.email) {
-        const exists = await this.findOne({ email })
-        if (exists) {
-            throw Error('Email already in use.')
-        }
     }
 
     if (!validator.isMobilePhone(phone, 'en-GB')){
@@ -185,7 +173,6 @@ UserSchema.statics.updateDetails = async function(userId, firstname, lastname, e
         ...user,
         firstname,
         lastname,
-        email,
         phone
     });
     await user.save()

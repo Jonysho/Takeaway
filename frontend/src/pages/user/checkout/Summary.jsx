@@ -5,6 +5,7 @@ import { useAuthContext } from "../../../customHooks/useAuthContext";
 import { AiFillShop } from "react-icons/ai";
 import {RiAddFill, RiSubtractFill}  from 'react-icons/ri';
 import { addToCartApi, clearCartApi, removeFromCartApi, saveFavouriteApi } from "../../../api/cartApi";
+import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 
 const Summary = () => {
     const { cart, total, dispatch } = useCartContext()
@@ -18,7 +19,6 @@ const Summary = () => {
     useEffect(() => {
         let temp = 0
         if (cart) {
-            console.log(cart)
             for (let i = 0; i < cart.length; i ++){
                 for (let j = 0; j < cart[i].portions.length; j ++) {
                     temp += cart[i].portions[j].quantity
@@ -28,15 +28,18 @@ const Summary = () => {
         }
     }, [cart])
 
+    const reset = () => {
+        setMessage('')
+        setError('')
+    }
+
     const handleChange = async (change, itemId, size) => {
-        console.log(itemId, size)
+        reset()
         try {
             let response
             if (change === "remove") {
-                console.log("a")
                 response = await removeFromCartApi(user.id, itemId, size, user.token)
             } else if (change === "add") {
-                console.log("b")
                 response = await addToCartApi(user.id, itemId, size, user.token)
             }
             let { cart } = response.data
@@ -47,6 +50,7 @@ const Summary = () => {
     }
     
     const handleClear = async () => {
+        reset()
         try {
             await clearCartApi(user.id, user.token)   
             dispatch({type: "CLEAR_CART"})
@@ -55,7 +59,7 @@ const Summary = () => {
         }
     }
 
-    const handleFavourite = async () => {   
+    const handleFavourite = async () => {
         try {
             const response = await saveFavouriteApi(user.id, user.token, favName)
             if (response) {
@@ -68,9 +72,11 @@ const Summary = () => {
             setError(error.response.data.error)
         }
     }
+    
+    const navigate = useNavigate();
 
-    const handleCheckout = () => {
-
+    const handleNav = () => {
+        navigate("/checkout/details");
     }
 
     return ( 
@@ -148,8 +154,9 @@ const Summary = () => {
                                     onClick={handleClear}>
                                     Clear Cart
                                 </button>
-                                <button className="rounded-full p-2 px-3 bg-green-600 w-fit flex justify-center text-white shadow-sm hover:bg-green-700 font-semibold"
-                                    onClick={handleCheckout}>
+                                <button className={`rounded-full p-2 px-3 ${cart.length === 0 ? "bg-gray-500 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"} w-fit flex justify-center text-white shadow-sm font-semibold`}
+                                    disabled={cart.length === 0}
+                                    onClick={handleNav}>
                                     Checkout Now
                                 </button>
                             </div>

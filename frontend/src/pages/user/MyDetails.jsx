@@ -6,7 +6,6 @@ import { useDetails } from "../../customHooks/useDetails";
 const MyDetails = () => {
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
-    const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     
     const {user} = useAuthContext()
@@ -22,10 +21,9 @@ const MyDetails = () => {
 
     useEffect(() => {
         if (userInfo){
-            const {firstname, lastname, email, phone} = userInfo
+            const {firstname, lastname, phone} = userInfo
             firstname && setFirstname(firstname)
             lastname && setLastname(lastname)
-            email && setEmail(email)
             phone && setPhone(phone)
         }
     }, [userInfo])
@@ -38,7 +36,7 @@ const MyDetails = () => {
     const handleUpdate = async (e) => {
         e.preventDefault()
         if (user){
-            await updateDetails(user.id, user.token, {firstname, lastname, email, phone})
+            await updateDetails(user.id, user.token, {firstname, lastname, phone})
         }
     }
 
@@ -55,7 +53,7 @@ const MyDetails = () => {
                 </div>
                 <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">Email address:</label>
-                    <input type="email" value={email} name="email" onChange={e => {setEmail(e.target.value); updateFields()}} className="inputbox border-gray-400 focus:border-blue-700"/>
+                    <input type="email" value={userInfo.email} name="email" disabled={true} className="inputbox border-gray-400 focus:border-blue-700 opacity-75"/>
                 </div>
                 <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">Contact Number:</label>

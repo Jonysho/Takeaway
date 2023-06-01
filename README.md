@@ -67,12 +67,18 @@ backend: npm i express
 - [X] Create/Read/Update/Clear Cart array (using Menu Item IDs)
 - [X] Calculate price using IDs and Menu Prices
 - [X] Update (Read) price on frontend
-- [ ] Design Checkout pages
+- [X] Design Checkout pages
     - [X] Show Cart items in checkout
+    - [X] Checkout details/payment page
 
 #### To do later:
 #### Online Ordering System
-#### Payment processing system
+- [ ] Set up online payment:
+    - [ ] Google Pay
+    - [ ] Paypal
+    - [ ] Card
+- [ ] Create Recent Orders for users
+- [ ] Create orders with unique order numbers
 
 #### Finish Admin Dashboard
 - [ ] Dashboard

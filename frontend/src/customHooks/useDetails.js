@@ -2,7 +2,12 @@ import { useState } from "react"
 import { getDetailsAPI } from "../api/userApi"
 
 export const useDetails = () => {
-    const [userInfo, setUserInfo] = useState(null)
+    const [userInfo, setUserInfo] = useState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+    })
 
     const getDetails = (id, token) => {
         getDetailsAPI(id, token)

@@ -159,11 +159,10 @@ const getUserDetails = async (req, res) => {
 
 const updateDetails = async (req, res) => {
     const { id } = req.params
-    let { firstname, lastname, email, phone } = req.body
-    email = email.toLowerCase()
-
+    let { firstname, lastname, phone } = req.body
+    
     try {
-        await User.updateDetails(id, firstname, lastname, email, phone)
+        await User.updateDetails(id, firstname, lastname, phone)
         res.status(200).json({message: "Successfully updated details."})
     } catch (error) {
         res.status(400).json({error: error.message})
