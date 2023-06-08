@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import CardLayout from "../../components/cards/CardLayout";
 import { deleteFavouriteApi, getUserFavouritesApi } from "../../api/userApi";
 import { useAuthContext } from "../../customHooks/useAuthContext";
-import MenuCard from "../../components/cards/MenuCard";
 import { loadFavouriteApi } from "../../api/cartApi";
 import { useCartContext } from "../../customHooks/useCartContext";
 
@@ -91,7 +89,6 @@ const Favourites = () => {
                 <p className="text-sm lg:text-base p-2">You can name and favourite your orders prior to ordering for quicker ordering next time.</p>
             </div>
             }
-            {recents.length > 0 ? <CardLayout cards={recents} /> : 
             <div>
                 <span>
                     <h1 className="redline flex justify-center items-center font-bold text-2xl sm:text-3xl lg:text-4xl lg:mx-4 text-center text-green-600 drop-shadow-sm p-6 line">Recent Orders</h1>
@@ -99,7 +96,6 @@ const Favourites = () => {
                 <p className="pb-2 font-bold">There are currently no recent orders.</p>
                 <p className="text-sm p-2">Your recent orders will appear here for quicker ordering next time.</p>
             </div>
-            }
         </div>
     )
 }

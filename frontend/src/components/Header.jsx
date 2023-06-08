@@ -11,10 +11,11 @@ import { useClickOutside } from '../customHooks/useClickOutside';
 import { useAuthContext } from '../customHooks/useAuthContext';
 import { useDetails } from '../customHooks/useDetails';
 import { useCartContext } from '../customHooks/useCartContext';
+import { useInfo } from '../customHooks/useInfo';
 
 const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
-  const [isInfoOpen, setIsInfoOpen] = useState(true); // info pop up
+  const {isInfoOpen, setIsInfoOpen, handleInfo} = useInfo()
   const { user } = useAuthContext()
   const { total } = useCartContext()
   const {userInfo, getDetails} = useDetails()
@@ -22,7 +23,7 @@ const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
   const resetNavs = () => {
     setIsNavDTOpen(false);
     setIsNavMBOpen(false);
-    setIsInfoOpen(false);
+    setIsInfoOpen(false)
   }
 
   const navRef = useClickOutside(resetNavs);
@@ -81,7 +82,7 @@ const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
       
         <nav className='w-full flex h-full items-center relative text-black'>
           <div className='hidden lg:flex ml-[5%] w-72 h-12 bg-blue-500 text-white rounded-3xl hover:bg-blue-700 focus:outline-none focus:bg-blue-700 shadow-sm'>
-            <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={() => setIsInfoOpen(!isInfoOpen)}>
+            <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={handleInfo}>
                 <span><AiOutlineShop size={25}/></span>
                 <span className='text-lg font-semibold'> Collection Only </span>
                 <span className='bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 rounded-3xl p-2'> {isShopOpen ? 'Open' : 'Closed'}  </span>

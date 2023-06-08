@@ -1,0 +1,19 @@
+# Node.js / Express
+node_modules/
+dist/
+.env
+.env.local
+
+# MongoDB
+*.log
+
+# Visual Studio Code
+.vscode/
+
+# Editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
