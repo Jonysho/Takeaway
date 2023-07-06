@@ -1,10 +1,10 @@
 // import axios from "axios";
 // import { useEffect, useState } from "react";
-import { openingHours } from "../utils/openingHours";
-import map from "../img/map.png";
-import {ImCross} from 'react-icons/im';
+import { openingHours } from "../../utils/openingHours";
+import map from "../../img/map.png";
+import { RxCross2 } from "react-icons/rx";
 
-const Info = ({setIsInfoOpen}) => {
+const InfoModal = ({closeModal}) => {
     // const [mapUrl, setMapUrl] = useState(null);
 
     // // Fetch the map URL from the backend server on component mount
@@ -16,9 +16,9 @@ const Info = ({setIsInfoOpen}) => {
     // }, []);
 
     return ( 
-        <div className="bg-white rounded-xl p-4  text-black flex items-center mx-auto">
-        <div className="absolute right-0 top-0 p-5 ">
-            <ImCross size={20} className="cursor-pointer text-black-600 hover:text-red-600" onClick={() => setIsInfoOpen(false)}/>
+        <div className="bg-white rounded-xl text-black flex items-center mx-auto relative p-5">
+        <div className="absolute right-1 top-1">
+            <RxCross2 size={35} className="cursor-pointer text-black-600 hover:text-red-600" onClick={() => closeModal(false)}/>
         </div>
         <table className="divide-y divide-gray-200 mr-4">
             <thead className="bg-gray-100">
@@ -46,4 +46,4 @@ const Info = ({setIsInfoOpen}) => {
      );
 }
  
-export default Info;
+export default InfoModal;

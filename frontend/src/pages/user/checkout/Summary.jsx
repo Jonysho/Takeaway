@@ -6,6 +6,8 @@ import { AiFillShop } from "react-icons/ai";
 import {RiAddFill, RiSubtractFill}  from 'react-icons/ri';
 import { addToCartApi, clearCartApi, removeFromCartApi, saveFavouriteApi } from "../../../api/cartApi";
 import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
+import { useStatus } from "../../../customHooks/useStatus";
+import Closed from "../../../components/Closed";
 
 const Summary = () => {
     const { cart, total, dispatch } = useCartContext()
@@ -79,6 +81,9 @@ const Summary = () => {
         navigate("/checkout/details");
     }
 
+    const status = useStatus()
+
+    if (status == 'Closed') return <Closed/>
     return ( 
         <div>
             <CheckoutStages stage={1}/>
@@ -119,7 +124,7 @@ const Summary = () => {
                                                                 <RiAddFill size={21}/> 
                                                             </div>
                                                         </div>
-                                                        £{portion.price.toFixed(2)}
+                                                        £{portion.price.toFixed(2)} each
                                                     </div>
                                                 </div>
                                             ))}

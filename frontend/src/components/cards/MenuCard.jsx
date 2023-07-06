@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import {TbChefHat} from 'react-icons/tb';
 import {GiChiliPepper} from 'react-icons/gi';
-import {AiFillInfoCircle, AiOutlineClose, AiOutlineConsoleSql} from 'react-icons/ai';
+import {AiFillInfoCircle, AiOutlineClose} from 'react-icons/ai';
 import { useCartContext } from "../../customHooks/useCartContext";
 import { addToCartApi } from "../../api/cartApi";
 import { useAuthContext } from "../../customHooks/useAuthContext";
@@ -73,7 +73,7 @@ const MenuCard = ({menuItem, image, isMenu}) => {
                     </select>
                     <div className="absolute pointer-events-none right-2"><IoIosArrowDown size={20}/></div>
                 </div>
-                <button className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition-all" onClick={handleAdd}>Add to Cart</button>
+                <button className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition hover:ease-in duration-300" onClick={handleAdd}>Add to Cart</button>
             </div>
         </div>
      );

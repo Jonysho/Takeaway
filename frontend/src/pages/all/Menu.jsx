@@ -4,10 +4,13 @@ import MenuCard from "../../components/cards/MenuCard";
 import {mainCategories} from '../../utils/menu/itemCategories';
 import subToMainCategory from  '../../utils/menu/subToMainCategory';
 import {RxDividerVertical } from 'react-icons/rx';
+import { Link } from "react-scroll";
+
+// Polyfill the smooth scrolling behavior
 
 const Menu = () => {
     const [menuItems, setMenuItems] = useState({});
-
+    
     useEffect(() => {
         getAllMenuItemsApi()
         .then(response => {
@@ -26,15 +29,19 @@ const Menu = () => {
         })
     }, [])
 
+
     return (
         <div>
+            <Link to="test1" spy={true} smooth={true} offset={50} duration={500}>Nav to meat</Link>
             <div className="bg-gray-200 w-full h-10 sm:h-14 sticky top-[3.0rem] sm:top-[4.5rem] lg:top-[4.4rem] z-[700] shadow-lg">
                 <ul className="flex items-center justify-center h-full text-center">
                     {mainCategories.map(({title, path}, index) => (
                     <li key={title} className="flex items-center">
-                        <a href={`#${path}`} className="text-black hover:text-red-500 font-light lg:font-normal text-xs xs:text-sm md:text-base lg:text-lg mx-2 sm:mx-4 lg:mx-8">
+                        <Link to={path} spy={true} smooth={true} offset={50} duration={500} 
+                            className="text-black border-b-2 hover:border-b-black cursor-pointer font-light 
+                                        lg:font-normal text-xs xs:text-sm md:text-base lg:text-lg mx-2 sm:mx-4 lg:mx-8">
                             {title}
-                        </a>
+                        </Link>
                         {index + 1 != mainCategories.length && <div className="hidden lg:inline-block items-center"><RxDividerVertical size={25}/></div>}
                     </li>
 
@@ -43,7 +50,7 @@ const Menu = () => {
             </div>
             <div className="py-6 px-8 xs:px-4 sm:px-16 md:p-8 lg:px-12 xl:px-16 box-border">
             {mainCategories.map(({title, path}) => (   
-                <div className="mb-4 relative scroll-mt-32" id={path} key={title}>
+                <div name={path} id={path} className="mb-4 relative scroll-mt-32" key={title}>
                     <span>
                         <h1 className="redline flex justify-center items-center font-bold text-2xl sm:text-3xl lg:text-4xl lg:mx-4 text-center text-green-600 drop-shadow-sm p-6 line">
                             {title}
@@ -60,6 +67,7 @@ const Menu = () => {
                 </div>)
             )}
             </div>
+            <div id="test1">meat</div>
         </div>
      );
 }

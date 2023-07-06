@@ -1,14 +1,16 @@
 const MenuItem = require('../models/MenuModel.js')
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 const { Storage } = require("@google-cloud/storage");
 const sharp = require("sharp");
+const currentDirectory = __dirname;
+const parentDirectory = path.dirname(currentDirectory);
+const serviceKey = path.join(parentDirectory, process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 // Set storage engine for multer
 const storage = new Storage({
     projectId: 'takeaway-website',
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    keyFilename: serviceKey,
 }) 
 
 const bucket = storage.bucket('item-images-bucket');
@@ -74,7 +76,9 @@ const addMenuItem = async (req, res) => {
         if (!Array.isArray(portions) || !portions.every(({size, price}) => size && price)) {
             return res.status(400).json({ error: 'Portions are inputted incorrectly.' });
         }
-        
+        portions.map(p => {
+            return {price: parseFloat(p.price).toFixed(2), size: p.size}
+        })
         // Check image file is created
         if (!req.file) {
             return res.status(400).json({ error: "Failed to save image. Ensure an image is chosen."})
@@ -92,14 +96,21 @@ const addMenuItem = async (req, res) => {
             console.log(err)
             return res.status(400).json({ error: 'Failed to save image.'})
         })
+        stream.on('finish', async () => {
+            try {
+                console.log("Uploaded")
+                await MenuItem.create({ itemId, name, category, portions, image: imageName, ...rest });
+                return res.status(200).json({ message: `Successfully added new menu item ${itemId}` });
+            } catch (error) {
+                console.log(error)
+                return res.status(400).json({ error: 'Failed to add new menu item.'})
+            }
+        })
         stream.end(compressedImage)
-        console.log("Uploaded")
-        await MenuItem.create({ itemId, name, category, portions, image: imageName, ...rest });
-        return res.status(200).json({ message: `Successfully added new menu item ${itemId}` });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ error: 'Failed to add new menu item.' });
-        }
+    }
     });
 };
 
@@ -151,6 +162,9 @@ const updateMenuItem = async (req, res) => {
     if (portions && !Array.isArray(portions) || portions.every(obj => obj.size == null || obj.price == null)) {
         return res.status(400).json({error: "Portions are inputted incorrectly."})
     }
+    portions.map(p => {
+        return {price: parseFloat(p.price).toFixed(2), size: p.size}
+    })
     try {
         const newItem = await MenuItem.updateOne( {itemId: id}, 
             {$set: {
@@ -180,7 +194,7 @@ const deleteMenuItem = async (req, res) => {
             await file.delete()
             console.log("Successfully deleted image.")
         } catch (error) {
-            console.error(err);
+            console.error(error);
             return res.status(400).json({ message: 'Failed to delete image.'})
         }
         return res.status(200).json({ message: `Menu Item ${id} successfully deleted.`})

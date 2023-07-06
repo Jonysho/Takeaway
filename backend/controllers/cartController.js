@@ -196,7 +196,7 @@ const getCart = async (req, res) => {
 }
 
 const favouriteCart = async (req, res) => {
-    const { userId, favName } = req.body
+    let { userId, favName } = req.body
     try {
         const user = await User.findOne({ _id: userId })
         if (!user) {
@@ -210,8 +210,11 @@ const favouriteCart = async (req, res) => {
         if (cart.cartDetails.length === 0) {
             return res.status(400).json({error: 'Cart cannot be empty.'})
         }
+        if (!favName) {
+            favName = `Favourite Cart #${user.favourites.length}`
+        }
         const newFavourite = {
-            name: favName,
+            name: favName.toUpperCase(),
             cart: cart.cartDetails
         }
         if (!user.favourites) {

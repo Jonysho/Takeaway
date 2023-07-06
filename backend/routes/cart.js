@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 
 const requireAuth = require('../middleware/requireAuth');
 const { addToCart, getCart, clearCart, removeFromCart, favouriteCart, loadFavourite } = require('../controllers/cartController');
@@ -14,4 +13,5 @@ router.patch('/clear', clearCart)
 
 router.post('/favourite/add', favouriteCart)
 router.patch('/favourite/load', loadFavourite)
+
 module.exports = router

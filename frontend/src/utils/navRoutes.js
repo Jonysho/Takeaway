@@ -95,7 +95,7 @@ const withoutNavRoutes = [
     },
     {
         path: '/checkout/confirmation',
-        element: <CheckoutRoute element={<Confirmation />}/>
+        element: <Confirmation />
     },
     {
         path: '/user/:id/verify/:token',

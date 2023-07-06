@@ -41,7 +41,7 @@ const MyDetails = () => {
     }
 
     return ( 
-        <div className="bg-white shadow-md max-w-xl mx-auto">
+        <div className="bg-white shadow-md max-w-xl mx-auto w-full">
             <form className="mx-4 p-6">
                 <div className="pb-4">
                     <label className="block text-gray-700 font-bold mb-2">First Name:</label>

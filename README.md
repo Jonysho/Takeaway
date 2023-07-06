@@ -17,4 +17,9 @@
     <li>Email verification with nodemailer</li>
     <li>Google Maps API </li>
     <li>Google Cloud Storage - store uploaded menu images via Multer</li>
+    <li>Stripe Payment Gateaway - payment flow for checkout</li>
 </ul>
+
+<!-- To Do -->
+<!-- - Popup notifications (e.g. for successful buttons, submissions etc.)
+- Modal for forms, details -->

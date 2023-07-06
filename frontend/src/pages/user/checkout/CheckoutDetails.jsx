@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import CheckoutStages from "../../../components/CheckoutStages";
 import { useDetails } from "../../../customHooks/useDetails";
 import { useAuthContext } from "../../../customHooks/useAuthContext";
-import { FaCcPaypal, FaGooglePay } from "react-icons/fa";
+import { FaGooglePay } from "react-icons/fa";
 import { AiFillCreditCard } from "react-icons/ai";
 import { BsCashStack } from "react-icons/bs";
 import { GrPaypal } from "react-icons/gr";
 import { useCartContext } from "../../../customHooks/useCartContext";
 import { useNavigate } from "react-router-dom";
+import { checkoutAPI, clearCartApi } from "../../../api/cartApi";
 
 const CheckoutDetails = () => {
     const { user } = useAuthContext()
@@ -16,6 +17,8 @@ const CheckoutDetails = () => {
     const [estimatedTime, setEstimatedTime] = useState(25)
     const [noti, setNoti] = useState(5)
     const [paymentMethod, setPaymentMethod] = useState('')
+
+    const { dispatch } = useCartContext()
 
     useEffect(() => {
         if (user){
@@ -32,14 +35,27 @@ const CheckoutDetails = () => {
         navigate("/checkout/summary");
     }
 
-    const handleGooglePay = () => {
-        // Google Pay
-        navigate("/checkout/confirmation");
+    const handleClear = async () => {
+        try {
+            await clearCartApi(user.id, user.token)   
+            dispatch({type: "CLEAR_CART"})
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handlePay = () => {
-        // Card Pay if card
-        navigate("/checkout/confirmation");
+        checkoutAPI(user.id, user.token)
+        .then(res => {
+            if (res.data.url){
+                // Clear cart and redirect
+                handleClear()
+                window.location.href = res.data.url
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     return ( 
@@ -111,7 +127,7 @@ const CheckoutDetails = () => {
                             </div>
                             Card (Visa, Mastercard, Amex)
                         </button>
-                        <button className={`border border-gray-400 mb-3 p-2 rounded-sm opacity flex items-center text-center shadow-sm 
+                        <button disabled className={`border border-gray-400 mb-3 p-2 rounded-sm opacity flex items-center text-center shadow-sm cursor-not-allowed
                             ${paymentMethod === "cash" && 'bg-blue-300/30 border-x-4 border-x-blue-500'}`}
                             value="cash"
                             onClick={handlePaymentUpdate}>
@@ -129,7 +145,7 @@ const CheckoutDetails = () => {
                         <button className="rounded-full p-2 px-3 bg-red-600 w-fit flex justify-center text-white shadow-sm hover:bg-red-700 font-semibold" 
                             onClick={handleBack}>Back</button>
                         { paymentMethod === 'gpay' ? 
-                            <button onClick={handleGooglePay}>Pay</button> :
+                            <button>GPay</button> :
                             <button className="rounded-full p-2 px-3 bg-green-600 w-fit flex justify-center text-white shadow-sm hover:bg-green-700 font-semibold"
                             onClick={handlePay}>Place Order and Pay</button>
                         }

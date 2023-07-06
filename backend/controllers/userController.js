@@ -75,6 +75,7 @@ const googleLogin = async (req, res, access_token) => {
             "Authorization": `Bearer ${access_token}`
         }
     }).then( async response => {
+        console.log("hello")
         const firstname = response.data.given_name
         const lastname = response.data.family_name
         let email = response.data.email.split("@")[0].toLowerCase()
@@ -90,6 +91,7 @@ const googleLogin = async (req, res, access_token) => {
             return res.status(200).json({id: user._id, token, isAdmin: user.isAdmin })
         }
     }).catch(err => {
+        console.log("goodlbye")
         console.log(err)
         return res.status(400).json({message: 'Google Login Failed.'})
     })

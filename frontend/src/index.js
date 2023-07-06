@@ -9,8 +9,8 @@ import { CartProvider } from './context/CartContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <GoogleOAuthProvider clientId='104196203671-5skq90a5mv5j7t76m9m3mqdpqrqbuasg.apps.googleusercontent.com'>
   <React.StrictMode>
+    <GoogleOAuthProvider clientId='104196203671-198rofen4hkut1o83dofs6pa75d1qq4e.apps.googleusercontent.com'>
     <AuthContextProvider>
       <CartProvider>
         <BrowserRouter>
@@ -18,6 +18,6 @@ root.render(
         </BrowserRouter>
       </CartProvider>
     </AuthContextProvider>    
+    </GoogleOAuthProvider>
   </React.StrictMode>
-  </GoogleOAuthProvider>
 );

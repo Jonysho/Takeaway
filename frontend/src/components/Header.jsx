@@ -6,16 +6,27 @@ import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
 import {RxCross2} from 'react-icons/rx';
 import { Link, NavLink} from 'react-router-dom';
 import Navbar from './navigation/Navbar';
-import Info from './Info';
+import InfoModal from './Modal/InfoModal';
 import { useClickOutside } from '../customHooks/useClickOutside';
 import { useAuthContext } from '../customHooks/useAuthContext';
 import { useDetails } from '../customHooks/useDetails';
 import { useCartContext } from '../customHooks/useCartContext';
-import { useInfo } from '../customHooks/useInfo';
+import { useStatus } from '../customHooks/useStatus';
+import ModalBase from './Modal/ModalBase';
 
-const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
+const Header = ({location, isNavMBOpen, setIsNavMBOpen}) => {
   const [isNavDTOpen, setIsNavDTOpen] = useState(false); // desktop Nav
-  const {isInfoOpen, setIsInfoOpen, handleInfo} = useInfo()
+  const status = useStatus()
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+      setModalOpen(false);
+  };
+
   const { user } = useAuthContext()
   const { total } = useCartContext()
   const {userInfo, getDetails} = useDetails()
@@ -23,7 +34,7 @@ const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
   const resetNavs = () => {
     setIsNavDTOpen(false);
     setIsNavMBOpen(false);
-    setIsInfoOpen(false)
+    closeModal()
   }
 
   const navRef = useClickOutside(resetNavs);
@@ -40,8 +51,9 @@ const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
 
   return (
       <div ref={navRef} className='bg-white relative w-full flex flex-col items-center h-24 sm:h-36 lg:h-52 shadow-xl text-red-700 lg:text-yellow-300'>
-        <div className='w-full h-full flex mb-1 p-1 border-b-2 sm:border-b-0 items-center border-gray-500/5 justify-between lg:bg-red-700 lg:py-10 z-[1000]'>
-          <div className='border-r-2 px-3 border-gray-500/50 sm:p-3 sm:px-10 block lg:hidden'>
+        <div className='w-full h-full flex mb-1 p-1 border-b-2 sm:border-b-0 items-center border-gray-500/5 justify-center lg:bg-red-700 lg:py-10 z-[1000]'>
+        <div className='flex justify-center w-full items-center max-w-7xl relative'>
+          <div className='border-r-2 px-3 border-gray-500/50 sm:p-3 sm:px-10 block lg:hidden '>
             <div className='cursor-pointer' onClick={() => setIsNavMBOpen(!isNavMBOpen)}>
             {!isNavMBOpen ? <HiMenu size={30} /> : <RxCross2 size={30}/>}
             </div>
@@ -72,40 +84,39 @@ const Header = ({location, isShopOpen, isNavMBOpen, setIsNavMBOpen}) => {
               </nav>}
           </div> ) :
           (
-            <div className='sm:p-3 hidden lg:flex items-center absolute right-6'>
+            <div className='sm:p-3 hidden lg:flex items-center absolute right-0'>
               <Link to="/login"><span className='px-3 text-xl border-r border-black/40'>Login</span></Link>
               <Link to="/register"><span className='px-3 text-xl border-l border-black/40'>Register</span></Link>
             </div>
           )
           }
         </div>
-      
-        <nav className='w-full flex h-full items-center relative text-black'>
+        </div>
+        {/* Navbar */}
+        <nav className='w-full flex h-full items-center relative text-black max-w-7xl'>
           <div className='hidden lg:flex ml-[5%] w-72 h-12 bg-blue-500 text-white rounded-3xl hover:bg-blue-700 focus:outline-none focus:bg-blue-700 shadow-sm'>
-            <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={handleInfo}>
+            <div className="flex items-center justify-between w-full px-4 cursor-pointer" onClick={openModal}>
                 <span><AiOutlineShop size={25}/></span>
                 <span className='text-lg font-semibold'> Collection Only </span>
-                <span className='bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 rounded-3xl p-2'> {isShopOpen ? 'Open' : 'Closed'}  </span>
+                <span className='bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 rounded-3xl p-2'> {status}  </span>
             </div>
           </div>
-          <div className='flex mx-auto space-x-4'>
-            <NavLink to="/menu"><span className='text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>Menu</span></NavLink>
-            <NavLink to="/myorders"><span className='text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>My Orders</span></NavLink>
-            {user && user.isAdmin && <NavLink to="/admin/dashboard"><span className='text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>Admin</span></NavLink>}
+          <div className='flex mx-auto space-x-4 h-full'>
+            <NavLink to="/menu" className="relative"><span className='active-border-bottom h-full flex items-center text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>MENU</span></NavLink>
+            <NavLink to="/myorders" className="relative"><span className='active-border-bottom h-full flex items-center text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>MY ORDERS</span></NavLink>
+            {user && user.isAdmin && <NavLink to="/admin/dashboard" className="relative"><span className='active-border-bottom h-full hidden lg:flex items-center text-gray-700 font-semibold hover:text-red-600 sm:text-xl sm:font-bold lg:text-2xl'>ADMIN</span></NavLink>}
           </div>
           <div className='hidden lg:flex mr-[5%] w-64 h-12 bg-green-500 text-white rounded-3xl hover:bg-green-700 focus:outline-none focus:bg-green-700 shadow-sm'>
             <NavLink to="/checkout/summary" className="flex items-center justify-between w-full px-4">
                   <p><BsFillBasket3Fill size={25}/></p>
                   <p className='text-lg font-semibold'> Basket </p>
-                  <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> ${total} </p>
+                  <p className='bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 rounded-3xl p-2'> £{total} </p>
             </NavLink>
           </div>
         </nav>
-        {isInfoOpen && 
-        <div className='hidden lg:flex max-w-2xl h-fit z-[999] top-40 absolute shadow-2xl'>
-          <Info setIsInfoOpen={setIsInfoOpen}/>
-        </div>
-        }
+        <ModalBase isOpen={isModalOpen} onClose={closeModal}>
+          <InfoModal closeModal={closeModal}/>
+        </ModalBase>
       </div>
     );
 }

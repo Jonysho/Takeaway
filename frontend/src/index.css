@@ -1,18 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;600&family=Nunito+Sans:wght@400;600;700;800&family=Philosopher&display=swap');
-
-/* .active span.blue{
-    @apply text-amber-700
-} */
-
-html {
-    scroll-behavior: smooth;
-}
 
 .active > span {
     @apply text-red-900
+}
+
+.active > .active-border-bottom {
+    @apply border-b-2 border-red-800
+}
+
+.active > .active-border-left {
+    @apply border-l-2 border-red-800
+}
+
+.active > .active-border-bottom::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #991b1b
+}
+
+.active > .active-border-left::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #991b1b
 }
 
 .inputbox {
@@ -27,13 +50,8 @@ html {
     @apply before:block before:top-10 before:h-1 before:w-60 before:bg-red-600 before:mx-3 after:block after:top-10 after:h-1 after:w-60 after:bg-red-600 after:mx-3
 }
 
-
-h1, h2, h3, h4, h5, h6{
-    font-family: 'Philosopher', sans-serif;
-}
-span, p {
-    /* font-family: 'Montserrat', sans-serif; */
-    font-family: 'Nunito Sans', sans-serif;
+body{
+    font-family: 'Lato', sans-serif;
 }
 
 input[type=number]::-webkit-outer-spin-button,

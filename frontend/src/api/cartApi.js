@@ -31,8 +31,8 @@ const removeFromCartApi = (id, itemId, size, token) => {
     })
 }
 
-const clearCartApi = (id, token) => {
-    return axios.patch('/api/cart/clear', {id}, {
+const clearCartApi = (userId, token) => {
+    return axios.patch('/api/cart/clear', {id: userId}, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -58,4 +58,12 @@ const loadFavouriteApi = (userId, favCartId, token) => {
     })
 }
 
-export { getCartApi, addToCartApi, clearCartApi, removeFromCartApi, saveFavouriteApi, loadFavouriteApi }
+const checkoutAPI = (userId, token) => {
+    return axios.post("/api/checkout/create-checkout-session", {userId}, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+export { getCartApi, addToCartApi, clearCartApi, removeFromCartApi, saveFavouriteApi, loadFavouriteApi, checkoutAPI }
